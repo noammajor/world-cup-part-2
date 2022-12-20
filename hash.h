@@ -1,11 +1,12 @@
-
 #ifndef HASH
 #define HASH
 #include "AVL_tree.h"
+
+template<class T, class Cond>
 struct Pocket
 {
-    Node<T,cond>* node;
-    pocket* next;
+    Node<T,Cond>* node;
+    Pocket* next;
     int key;
 };
 
@@ -32,7 +33,7 @@ class Hash_table
     static const factor =2;
     condition con;
 public:
-    Hash_table(cond con): size(0),data(new Pocket[10]),size_factor(10), con(con(10))
+    Hash_table(Cond con): size(0),data(new Pocket[10]),size_factor(10), con(con(10))
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -42,7 +43,7 @@ public:
     ~Hash_table();
     Hash_table<T,condition> &operator=(const Hash_table<T,condition> &hash) = delete;
     Hash_table<T,condition>(const Hash_table<T,condition> &hash) = delete;
-    void add(int key, const  Node<T,cond>* data);
+    void add(int key, const  Node<T,Cond>* data);
  //   bool remove (int key);
     void resize();
     Pocket* get(int key) const;
