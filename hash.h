@@ -1,11 +1,12 @@
 #ifndef HASH
 #define HASH
-#include "AVL_tree.h"
 
-template<class T, class Cond>
+#include "UF.h"
+
+template<class T>
 struct Pocket
 {
-    Node<T,Cond>* node;
+    Node<T>* node;
     Pocket* next;
     int key;
 };
@@ -28,12 +29,12 @@ template<class T,class condition>
 class Hash_table
 {
     int size;
-    Pocket* data;
+    Pocket<T>* data;
     int size_factor;
-    static const factor =2;
+    static const int factor =2;
     condition con;
 public:
-    Hash_table(Cond con): size(0),data(new Pocket[10]),size_factor(10), con(con(10))
+    Hash_table(condition con): size(0),data(new Pocket<T>[10]),size_factor(10), con(con(10))
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -43,21 +44,21 @@ public:
     ~Hash_table();
     Hash_table<T,condition> &operator=(const Hash_table<T,condition> &hash) = delete;
     Hash_table<T,condition>(const Hash_table<T,condition> &hash) = delete;
-    void add(int key, const  Node<T,Cond>* data);
+    void add(int key, const  Node<T,condition>* data);
  //   bool remove (int key);
     void resize();
-    Pocket* get(int key) const;
+    Pocket<T>* get(int key) const;
 };
 template<class T,class condition>
-Pocket* Hash_table<T,condition>::get(int key) const
+Pocket<T>* Hash_table<T,condition>::get(int key) const
 {
     int index=this->con(key);
-    Pocket* temp=this->data[index];
+    Pocket<T>* temp=this->data[index];
     if(temp== nullptr)
     {
         return nullptr;
     }
-    else if
+    else
     {
         while(temp!=nullptr)
         {
@@ -73,15 +74,15 @@ Pocket* Hash_table<T,condition>::get(int key) const
 }
 
 
-template<class T,class condition,class cond>
-void Hash_table<T,condition>::add(int key, const  Node<T,cond>* data)
+template<class T,class condition>
+void Hash_table<T,condition>::add(int key, const  Node<T,condition>* data)
 {
     if(this->size_factor<=this->size)
     {
         resize();
     }
     int place=con(key);
-    Pocket* t= new pocket();
+    Pocket<T>* t= new Pocket<T>();
     t->next= nullptr;
     t->key=key;
     t->node=data;
@@ -89,9 +90,9 @@ void Hash_table<T,condition>::add(int key, const  Node<T,cond>* data)
     {
         this->data[place]=t;
     }
-    else if
+    else
     {
-        pocket* temp =this->data[place];
+        Pocket<T>* temp =this->data[place];
         while(temp->next!=nullptr)
         {
             temp=temp->next;
@@ -104,9 +105,8 @@ template<class T,class condition>
 void Hash_table<T,condition>::resize()
 {
     condition c=condition(size_factor*factor);
-    try
-    {
-        Pocket* tempData=new Pocket[size_factor*factor];
+        Pocket<T> *tempData = new Pocket<T>[size_factor * factor];
+
         for (int i = 0; i < size_factor*factor; ++i)
         {
         tempData[i]= nullptr;
@@ -115,7 +115,7 @@ void Hash_table<T,condition>::resize()
         {
             if(this->data[i]!= nullptr)
             {
-                Pocket* temp=data[i];
+                Pocket<T>* temp=data[i];
                 while (temp!= nullptr)
                 {
                     int index=c(temp->key);
@@ -123,27 +123,22 @@ void Hash_table<T,condition>::resize()
                     {
                         tempData[index]=temp;
                     }
-                    else if
+                    else
                     {
-                        Pocket* temprun=tempData[index];
+                        Pocket<T>* temprun=tempData[index];
                         while(temprun->next!=nullptr)
                         {
                             temprun=temprun->next;
                         }
                         temprun->next=temp;
                     }
-                    Pocket* deltem=temp;
+                    Pocket<T>* detem1=temp;
                     temp=temp->next;
-                    delete deltem;
+                    delete detem1;
                 }
             }
         }
-    }
-    catch (const std::exception &e)
-    {
-        delete[] tempData;
-        throw;
-    }
+
     delete this->data;
     this->data=tempData;
     this->size_factor=this->size_factor*this->factor;
@@ -157,10 +152,10 @@ Hash_table<T,condition>::~Hash_table()
     {
         if(this->data[i]!= nullptr)
         {
-            Pocket* temp=data[i];
+            Pocket<T>* temp=data[i];
             while(temp!= nullptr)
             {
-                Pocket* tempdel=temp;
+                Pocket<T>* tempdel=temp;
                 temp=temp->next;
                 delete tempdel;
             }
@@ -168,7 +163,4 @@ Hash_table<T,condition>::~Hash_table()
     }
     delete[] data;
 }
-
-
-
-
+#endif
