@@ -16,13 +16,10 @@
 #define WORLDCUP23A2_H_
 
 #include "wet2util.h"
-
+#include "UF.h"
 class world_cup_t {
 private:
-	//
-	// Here you may add anything you want
-	//
-	
+    UF<Player, Team, class Cond> players_table;
 public:
 	// <DO-NOT-MODIFY> {
 	

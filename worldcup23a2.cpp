@@ -12,21 +12,44 @@ world_cup_t::~world_cup_t()
 
 StatusType world_cup_t::add_team(int teamId)
 {
-	// TODO: Your code goes here
-	return StatusType::SUCCESS;
+    if(teamId<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    else if(players_table.teamexists(teamid)==false)
+    {
+        return StatusType::FAILURE;
+    }
+    else
+    {
+        players_table.addteam(teamId);
+        return StatusType::SUCCESS;
+    }
 }
 
 StatusType world_cup_t::remove_team(int teamId)
 {
-	// TODO: Your code goes here
-	return StatusType::FAILURE;
+    if(teamId<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    else if(players_table.teamexists(teamid)==true)
+    {
+        return StatusType::FAILURE;
+    }
+    else
+    {
+        player_table.removeteam(teamId);
+        return StatusType::SUCCESS;
+    }
+
 }
 
 StatusType world_cup_t::add_player(int playerId, int teamId,
                                    const permutation_t &spirit, int gamesPlayed,
                                    int ability, int cards, bool goalKeeper)
 {
-	// TODO: Your code goes here
+    Player* player=new
 	return StatusType::SUCCESS;
 }
 

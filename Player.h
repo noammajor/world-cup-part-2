@@ -3,34 +3,26 @@
 
 #include <iostream>
 #include "Team.h"
-#include "AVL_tree.h"
+#include "wet2util.h"
 
 class Team;
 
 class Player
 {
-    Team *my_team;
-    int team_Id;
     int player_id;
     int games_played;
-    int goals;
     int cards;
     bool goalkeeper;
     int teamsGamesPlayed;
-    Player* closest_top;
-    Player* closest_bottom;
+    int ability;
+    permutation_t partual_spirit;
 
 
 public:
 
-    class PlayerGoalsOrder;
-    class PlayerIDOrder;
 
-    Player(int playerId, int teamId, int gamesPlayed, int goals, int cards, bool goalKeeper):
-            my_team(nullptr), team_Id(teamId), player_id(playerId), games_played(gamesPlayed),  goals(goals), cards(cards),
-            goalkeeper(goalKeeper), teamsGamesPlayed(0), closest_top(nullptr), closest_bottom(nullptr) {}
-
-    void root_set();
+    Player(int playerId, int gamesPlayed,int ability, int cards, bool goalKeeper,const permutation_t &spirit):player_id(playerId),ability
+    (ability),games_played(gamesPlayed),cards(cards),goalkeeper(goalKeeper),partual_spirit(spirit){};
 
     ~Player() = default;
 
@@ -38,63 +30,24 @@ public:
 
     Player(const Player &player) = delete;
 
-    bool operator>(const Player &p1) const;
-
-    bool operator==(const Player &p1) const;
-
-    bool operator!=(const Player &p1) const;
-
-    bool operator<=(const Player &p1) const;
-
-    int points() const;
 
     int get_games_played() const;
 
     bool is_goalkeeper() const;
 
-    int get_goals() const;
-
     int get_cards() const;
-
-    int get_teamID() const;
 
     int get_playerID() const;
 
     int get_team_games() const;
 
-    void add_games(int gamesPlayed);
+    void add_game();
 
-    void add_goals(int scoredGoals);
+    int get_ability() const;
 
-    void add_cards(int cardsReceived);
-
-    Team* get_team() const;
-
-    void set_closest_bottom(Player* p);
-
-    void set_lowest(Player* lowest_player);
-
-    int get_closest() const;
-
-    void change_team (Team* team);
-
-    void connect_top_bottom();
-
-    class PlayerGoalsOrder
-    {
-    public:
-        bool operator() (const Player* p1,const Player* p2) const;
     };
 
-    class PlayerIDOrder
-    {
-    public:
-        bool operator()(const Player* p1, const Player* p2) const;
-        bool operator()(const Player* p1, int num) const;
-        bool operator()(int num, const Player* p1) const;
-    };
 
-};
 
 
 #endif //PLAYER_H

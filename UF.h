@@ -37,9 +37,21 @@ public:
     bool connected(E elem1,E elem2) const;
     bool addteam(int id);
     bool removeteam(int id);
-   T* getplayer(int id);
+    T* getplayer(int id);
+    bool teamexists(int teamid) const;
 
 };
+
+template<class T, class G, class Cond>
+bool teamexists(int teamid) const
+{
+    if(groups->search(teamid)==nullptr)
+    {
+        return true;
+    }
+    else
+        return false;
+}
 template<class T, class G, class Cond>
 bool UF<T, G, Cond>::addteam(int id)
 {
@@ -49,7 +61,7 @@ bool UF<T, G, Cond>::addteam(int id)
 template<class T, class G, class Cond>
 bool UF<T, G, Cond>::removeteam(int id)
 {
-    return groups->template remove(id);
+    return groups->remove(id) ;
 }
 template<class T, class G, class Cond>
 T* UF<T, G, Cond>::getplayer(int id)
