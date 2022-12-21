@@ -53,6 +53,8 @@ public:
     void change_per( const permutation_t& p);
 
     UF_Node* get_players() const;
+
+    void add_first_player(UF_Node*  p1);
 };
 
 class TeamIDOrder

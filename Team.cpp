@@ -20,7 +20,7 @@ void Team::add_points(int points_add)
 
 void Team::more_game_played()
 {
-    playersUF->player->add_game();
+    playersUF->player->add_games(1);
 }
 
 void Team::add_player (Player* player)
@@ -45,6 +45,11 @@ int Team::get_ability() const
 UF_Node* Team::get_players() const
 {
 
+}
+
+void Team::add_first_player(UF_Node*  p1)
+{
+    playersUF = p1;
 }
 
 bool Team::operator >(const Team* p1) const
