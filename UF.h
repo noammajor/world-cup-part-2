@@ -1,12 +1,26 @@
 #ifndef UF_H
 #define UF_H
 
-#include "AVL_tree.h"
+#include "hash.h"
+
+
+template<class T>
+struct Node
+{
+    Node* father;
+    T data;
+    int height;
+
+    T& get_data_Node();
+    Node(T data): father(nullptr), data(data), height(1){}
+
+};
+
 
 template<class T, class E, class Cond>
 class UF
 {
-    //Pocket<E>* elements;
+    Pocket<E>* elements;
     Node<T, Cond>* groups;
     int size;
 
@@ -23,6 +37,8 @@ public:
 template<class T, class E, class Cond>
 bool UF<T, E, Cond>::insert(E elem, T group)
 {
+
+
     return true;
 }
 
