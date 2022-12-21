@@ -47,9 +47,9 @@ int Player::get_team_games() const
     return teamsGamesPlayed;
 }
 
-void Player::add_game()
+void Player::add_games(int num)
 {
-    games_played++;
+    games_played += num;
 }
 
 int Player::get_ability() const
