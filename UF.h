@@ -21,7 +21,7 @@ template<class T, class E, class Cond>
 class UF
 {
     Hash_table<E>* elements;
-    Node<T, Cond>* groups;
+    Node<T>* groups;
     int size;
 
 public:
@@ -37,7 +37,9 @@ public:
 template<class T, class E, class Cond>
 bool UF<T, E, Cond>::insert(E elem, T group)
 {
-
+    Node<E> node1 = new Node<E>(elem);
+    elements->add(elem->get_key(), node1);
+    node1->group = group;
 
     return true;
 }
