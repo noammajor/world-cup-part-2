@@ -5,17 +5,7 @@
 #include "AVL_tree.h"
 
 
-template<class T,class G>
-struct UF_Node
-{
-    UF_Node* father;
-    T data;
-    int height;
-    G* group;
 
-    explicit UF_Node(T data): father(nullptr), data(data), height(1){}
-
-};
 
 
 template<class T, class G, class Cond>
@@ -23,22 +13,22 @@ class UF
 {
     Hash_table<T, G>* elements;
     AVL_Tree<G, Cond>* groups;
-    int size;
 
 public:
-    UF(): elements(new Hash_table<T,G>), groups(new AVL_Tree<G, Cond>), size(0){}
+    UF(): elements(new Hash_table<T,G>), groups(new AVL_Tree<G, Cond>){}
     UF<T, G, Cond>& operator=(const UF<T, G, Cond>&) = delete;
     UF<T, G, Cond>(const UF<T, G, Cond>&) = delete;
     ~UF() = default; ////////////////////////do later
 
-    bool insert(T elem, G group);
+    void insert(T elem, G group);
     void Union(G g1, G g2);
     G* find(int key);
-    bool connected(E elem1,E elem2) const;
-    bool addteam(int id);
-    bool removeteam(int id);
-    T* getplayer(int id);
+    bool connected(T elem1, T elem2) const;
+    bool addTeam(int id);
+    bool removeTeam(int id);
+    T* getPlayer(int id);
     bool teamexists(int teamid) const;
+
 
 };
 
@@ -53,21 +43,22 @@ bool teamexists(int teamid) const
         return false;
 }
 template<class T, class G, class Cond>
-bool UF<T, G, Cond>::addteam(int id)
+bool UF<T, G, Cond>::addTeam(int id)
 {
     return groups->insert_to_tree(id);
 }
 
 template<class T, class G, class Cond>
-bool UF<T, G, Cond>::removeteam(int id)
+bool UF<T, G, Cond>::removeTeam(int id)
 {
-    return groups->remove(id) ;
+    return groups->remove(id);
 }
+
 template<class T, class G, class Cond>
-T* UF<T, G, Cond>::getplayer(int id)
+T* UF<T, G, Cond>::getPlayer(int id)
 {
    Pocket<T,G>* temp = elements->get(id);
-   if(temp== nullptr)
+   if(temp == nullptr)
    {
        return nullptr;
    }
@@ -75,13 +66,14 @@ T* UF<T, G, Cond>::getplayer(int id)
 }
 
 template<class T, class G, class Cond>
-bool UF<T, G, Cond>::insert(T elem, G group)
+void UF<T, G, Cond>::insert(T elem, G group)
 {
     UF_Node<T,G> node1 = new UF_Node<T,G>(elem);
     elements->add(elem->get_key(), node1);
     node1->group = group;
     UF_Node<T, G> root = group->get_elements();
     node1.father = root;
+    root->size++;
 
     // elem->partial_spirit += team_spirit
 
@@ -89,24 +81,29 @@ bool UF<T, G, Cond>::insert(T elem, G group)
 }
 
 template<class T, class G, class Cond>
-bool UF<T, E, Cond>::connected(E elem1,E elem2) const
+bool UF<T, G, Cond>::connected(T elem1, T elem2) const
 {
-    return (this->find(elem1)==this->(elem2));
+    return (this->find(elem1) == this->find(elem2));
 }
 
 template<class T, class G, class Cond>
 void UF<T, G, Cond>::Union(G g1, G g2)
 {
-    if(g1 == g2)
+    if (g1 == g2)
         return;
-    UF_Node<T,G> root1 = g1->get_elements();
-    UF_Node<T,G> root2 = g2->get_elements();
-    if (g1->get_size() > g2->get_size())
-        root2.father = root1;
+    UF_Node<T, G>* root1 = g1->get_elements();
+    UF_Node<T, G>* root2 = g2->get_elements();
+    if (root1->size > g2->size)
+    {
+        root2->father = root1;
+        root1->size += root2->size;
+    }
     else
-        root1.father = root2;
+    {
+        root1->father = root2;
+        root2->size += root1->size;
+    }
 }
-
 
 template<class T, class G, class Cond>
 G* UF<T, G, Cond>::find(int key)

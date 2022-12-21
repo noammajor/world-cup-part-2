@@ -17,9 +17,16 @@
 
 #include "wet2util.h"
 #include "UF.h"
+#include "Player.h"
+#include "Team.h"
+
+
 class world_cup_t {
 private:
-    UF<Player, Team, class Cond> players_table;
+	UF<Player*, Team*, TeamIDOrder>* Teams_Players;
+    AVL_Tree<Team, TeamAbilityOrder>* TeamsByAbility;
+
+	
 public:
 	// <DO-NOT-MODIFY> {
 	

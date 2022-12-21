@@ -3,6 +3,20 @@
 
 #include "UF.h"
 
+
+template<class T,class G>
+struct UF_Node
+{
+    UF_Node* father;
+    T data;
+    int size;
+    G* group;
+
+    explicit UF_Node(T data): father(nullptr), data(data), size(1){}
+
+};
+
+
 template<class T,class G>
 struct Pocket
 {
@@ -38,7 +52,7 @@ class Hash_table
     condition con;
 
 public:
-    Hash_table<T,G>(): size(0),data(new Pocket<T,G>[10]),size_factor(10), con()
+    Hash_table<T,G>(): size(0),data(new Pocket<T, G>[10]),size_factor(10), con()
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -175,7 +189,7 @@ Hash_table<T,G>::~Hash_table()
             Pocket<T,G>* temp=data[i];
             while(temp!= nullptr)
             {
-                Pocket<T>* tempdel=temp;
+                Pocket<T, G>* tempdel=temp;
                 temp=temp->next;
                 delete tempdel;
             }
