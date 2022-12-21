@@ -16,23 +16,27 @@ class condition
     int k;
 public:
     condition(int k):k(k){};
-    void resizing(int m)
+    void resizing(int m = 10)
     {
-        k=m;
+        k = m;
     }
+
     int operator()(int key) const
     {
-        return key%k;
+        return key % k;
     }
 };
+
+
 template<class T,class condition>
 class Hash_table
 {
     int size;
     Pocket<T>* data;
     int size_factor;
-    static const int factor =2;
+    static const int factor = 2;
     condition con;
+
 public:
     Hash_table(condition con): size(0),data(new Pocket<T>[10]),size_factor(10), con(con(10))
     {
