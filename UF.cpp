@@ -112,7 +112,7 @@ Team* UF::find(int key)
     return rootNode->group;
 }
 
-Team* UF<T, G, Cond>::get_team(int teamID)
+Team* UF::get_team(int teamID)
 {
     Node<Team, TeamIDOrder> node* = groups->search(teamID);
     if (!node)
