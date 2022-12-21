@@ -715,7 +715,7 @@ Node<T, Cond>* AVL_Tree<T, Cond>::create_next(int index, int size, T* united_dat
     node->height = height(node);
     return node;
 }
-
+/*
 template<class T, class Cond>
 void AVL_Tree<T, Cond>::merge (T* united, T* t1, int t1_size, T* t2, int t2_size)
 {
@@ -730,7 +730,7 @@ void AVL_Tree<T, Cond>::merge (T* united, T* t1, int t1_size, T* t2, int t2_size
     while (j < t2_size)
         united[k++] =  t2[j++];
 }
-
+*/
 template<class T, class Cond>
 Node<T, Cond>* AVL_Tree<T, Cond>::create_tree(int height)
 {
