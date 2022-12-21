@@ -11,38 +11,38 @@ world_cup_t::~world_cup_t()
 	// TODO: Your code goes here
 }
 
-StatusType world_cup_t::add_team(int teamId)
+StatusType world_cup_t::add_team(int teamID)
 {
-    if(teamId<0)
+    if(teamID<0)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(Teams_Players->teamexists(teamId)==false)
+    else if(!Teams_Players->teamExists(teamID))
     {
         return StatusType::FAILURE;
     }
     else
     {
-        Teams_Players->addTeam(teamId);
-        TeamsByAbility->insert_to_tree(teamId);
+        Teams_Players->addTeam(teamID);
+        TeamsByAbility->insert_to_tree(teamID);
         return StatusType::SUCCESS;
     }
 }
 
-StatusType world_cup_t::remove_team(int teamId)
+StatusType world_cup_t::remove_team(int teamID)
 {
-    if(teamId<0)
+    if(teamID < 0)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(Teams_Players->teamexists(teamId)==true)
+    else if(Teams_Players->teamExists(teamID))
     {
         return StatusType::FAILURE;
     }
     else
     {
-        Teams_Players->removeTeam(teamId);
-        TeamsByAbility->remove(teamId);
+        Teams_Players->removeTeam(teamID);
+        TeamsByAbility->remove(teamID);
         return StatusType::SUCCESS;
     }
 }

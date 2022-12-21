@@ -29,7 +29,7 @@ public:
     T* getPlayer(int id);
     bool teamexists(int teamid) const;
     permutation_t getTeamPermutation() const;
-
+    Team* get_team(int teamID) const;
 
 };
 
