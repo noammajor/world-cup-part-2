@@ -6,7 +6,7 @@
 template<class T,class G>
 struct Pocket
 {
-    Node<T,G>* node;
+    UF_Node<T,G>* node;
     Pocket* next;
     int key;
 };
@@ -38,7 +38,7 @@ class Hash_table
     condition con;
 
 public:
-    Hash_table(): size(0),data(new Pocket<T>[10]),size_factor(10), con()
+    Hash_table<T,G>(): size(0),data(new Pocket<T>[10]),size_factor(10), con()
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -49,19 +49,31 @@ public:
     ~Hash_table<T,G>();
     Hash_table<T,G> &operator=(const Hash_table<T,G> &hash) = delete;
     Hash_table<T,G>(const Hash_table<T,G> &hash) = delete;
-    void add(int key, const  Node<T,G>* data);
+    void add(int key, const  UF_Node<T,G>* data);
 
-    ~Hash_table();
-    Hash_table<T> &operator=(const Hash_table<T> &hash) = delete;
-    Hash_table<T>(const Hash_table<T> &hash) = delete;
-    void add(int key, const  Node<T>* data);
+    ~Hash_table<T,G>();
+    Hash_table<T,G> &operator=(const Hash_table<T,G> &hash) = delete;
+    Hash_table<T,G>(const Hash_table<T,G> &hash) = delete;
+    void add(int key, const  UF_Node<T,G>* data);
  //   bool remove (int key);
     void resize();
     Pocket<T,G>* get(int key) const;
+    int getsize() const;
+    int getfactor() const;
 };
 
 
-template<class T>
+template<class T,class G>
+int Hash_table<T,G>:: getsize() const
+{
+    return this->size;
+}
+template<class T,class G>
+int Hash_table<T,G>:: getfactor() const
+{
+    return this->size_factor;
+}
+template<class T,class G>
 Pocket<T,G>* Hash_table<T,G>::get(int key) const
 {
     int index = this->con(key);
@@ -87,7 +99,7 @@ Pocket<T,G>* Hash_table<T,G>::get(int key) const
 
 
 template<class T,class G>
-void Hash_table<T,G>::add(int key, const  Node<T,G>* data)
+void Hash_table<T,G>::add(int key, const  UF_Node<T,G>* data)
 {
     if(this->size_factor <= this->size)
     {

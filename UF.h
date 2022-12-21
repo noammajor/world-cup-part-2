@@ -30,10 +30,33 @@ public:
     bool insert(T elem, G group);
     void Union(G g1, G g2);
     G* find(int key);
-
+    bool connected(E elem1,E elem2) const;
+    bool addteam(int id);
+    bool removeteam(int id);
+   T* getplayer(int id);
 
 };
+template<class T, class G, class Cond>
+bool UF<T, G, Cond>::addteam(int id)
+{
+    return groups->insert_to_tree(id);
+}
 
+template<class T, class G, class Cond>
+bool UF<T, G, Cond>::removeteam(int id)
+{
+    return groups->template remove(id);
+}
+template<class T, class G, class Cond>
+T* UF<T, G, Cond>::getplayer(int id)
+{
+   Pocket<T,G>* temp = elements->get(id);
+   if(temp== nullptr)
+   {
+       return nullptr;
+   }
+    return temp->node->data;
+}
 
 template<class T, class G, class Cond>
 bool UF<T, G, Cond>::insert(T elem, G group)
@@ -48,6 +71,12 @@ bool UF<T, G, Cond>::insert(T elem, G group)
 
 
     return true;
+}
+
+template<class T, class G, class Cond>
+bool UF<T, E, Cond>::connected(E elem1,E elem2) const
+{
+    return (this->find(elem1)==this->(elem2));
 }
 
 template<class T, class G, class Cond>
