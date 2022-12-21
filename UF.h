@@ -27,15 +27,16 @@ public:
     bool addTeam(int id);
     bool removeTeam(int id);
     T* getPlayer(int id);
-    bool teamexists(int teamid) const;
+    bool teamExists(int teamID) const;
+    Team* get_team(int teamID) const;
 
 
 };
 
 template<class T, class G, class Cond>
-bool teamexists(int teamid) const
+bool UF<T, G, Cond>::teamExists(int teamID) const
 {
-    if(groups->search(teamid)==nullptr)
+    if(groups->search(teamID) == nullptr)
     {
         return true;
     }
@@ -66,6 +67,15 @@ T* UF<T, G, Cond>::getPlayer(int id)
 }
 
 template<class T, class G, class Cond>
+Team* UF<T, G, Cond>::get_team(int teamID)
+{
+    Node<Team, TeamIDOrder> node* = groups->search(teamID);
+    if (!node)
+        return nullptr;
+    return node->get_data_Node();
+}
+
+template<class T, class G, class Cond>
 void UF<T, G, Cond>::insert(T elem, G group)
 {
     UF_Node<T,G> node1 = new UF_Node<T,G>(elem);
@@ -87,16 +97,14 @@ bool UF<T, G, Cond>::connected(T elem1, T elem2) const
 }
 
 template<class T, class G, class Cond>
-void UF<T, G, Cond>::Union(G g1, G g2)
+void UF<T, G, Cond>::Union(UF_Node<T, G>* n1, UF_Node<T, G>* n2)
 {
-    if (g1 == g2)
+    if (n1 == n2)
         return;
-    UF_Node<T, G>* root1 = g1->get_elements();
-    UF_Node<T, G>* root2 = g2->get_elements();
-    if (root1->size > g2->size)
+    if (n1->size > n2->size)
     {
-        root2->father = root1;
-        root1->size += root2->size;
+        n2->father = n1;
+        n1->size += root2->size;
     }
     else
     {
