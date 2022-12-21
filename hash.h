@@ -15,8 +15,8 @@ class condition
 {
     int k;
 public:
-    condition(int k):k(k){};
-    void resizing(int m = 10)
+    condition(int k = 10):k(k){};
+    void resizing(int m)
     {
         k = m;
     }
@@ -38,40 +38,48 @@ class Hash_table
     condition con;
 
 public:
-    Hash_table(): size(0),data(new Pocket<T>[10]),size_factor(10), con(con)
+    Hash_table(): size(0),data(new Pocket<T>[10]),size_factor(10), con()
     {
         for (int i = 0; i < 10; ++i)
         {
         data[i]= nullptr;
         }
     };
+
     ~Hash_table<T,G>();
     Hash_table<T,G> &operator=(const Hash_table<T,G> &hash) = delete;
     Hash_table<T,G>(const Hash_table<T,G> &hash) = delete;
     void add(int key, const  Node<T,G>* data);
+
+    ~Hash_table();
+    Hash_table<T> &operator=(const Hash_table<T> &hash) = delete;
+    Hash_table<T>(const Hash_table<T> &hash) = delete;
+    void add(int key, const  Node<T>* data);
  //   bool remove (int key);
     void resize();
     Pocket<T,G>* get(int key) const;
 };
+
+
 template<class T>
 Pocket<T,G>* Hash_table<T,G>::get(int key) const
 {
-    int index=this->con(key);
-    Pocket<T,G>* temp=this->data[index];
+    int index = this->con(key);
+    Pocket<T,G>* temp = this->data[index];
     if(temp== nullptr)
     {
         return nullptr;
     }
     else
     {
-        while(temp!=nullptr)
+        while(temp)
         {
-            if(temp->key==key)
+            if(temp->key == key)
             {
                 return temp;
             }
             else
-                temp=temp->next;
+                temp = temp->next;
         }
     }
     return nullptr;
@@ -81,49 +89,50 @@ Pocket<T,G>* Hash_table<T,G>::get(int key) const
 template<class T,class G>
 void Hash_table<T,G>::add(int key, const  Node<T,G>* data)
 {
-    if(this->size_factor<=this->size)
+    if(this->size_factor <= this->size)
     {
         resize();
     }
     int place=con(key);
     Pocket<T,G>* t= new Pocket<T,G>();
     t->next= nullptr;
-    t->key=key;
-    t->node=data;
-    if(data[place]== nullptr)
+    t->key = key;
+    t->node = elem;
+    if(data[place] == nullptr)
     {
-        this->data[place]=t;
+        this->data[place] = t;
     }
     else
     {
         Pocket<T,G>* temp =this->data[place];
         while(temp->next!=nullptr)
         {
-            temp=temp->next;
+            temp = temp->next;
         }
-        temp->next=t;
+        temp->next = t;
     }
-    this->size=size+1;
+    this->size++;
 }
+
 template<class T,class G>
 void Hash_table<T,G>::resize()
 {
     condition c=condition(size_factor*factor);
         Pocket<T,G> *tempData = new Pocket<T,G>[size_factor * factor];
 
-        for (int i = 0; i < size_factor*factor; ++i)
+        for (int i = 0 ; i < size_factor*factor ; ++i)
         {
-        tempData[i]= nullptr;
+        tempData[i] = nullptr;
         }
-        for(int i=0;i<size_factor;i++)
+        for(int i = 0 ; i < size_factor ; i++)
         {
-            if(this->data[i]!= nullptr)
+            if(this->data[i] != nullptr)
             {
                 Pocket<T,G>* temp=data[i];
                 while (temp!= nullptr)
                 {
-                    int index=c(temp->key);
-                    if(tempData[index]== nullptr)
+                    int index = c(temp->key);
+                    if(tempData[index] == nullptr)
                     {
                         tempData[index]=temp;
                     }
@@ -145,6 +154,7 @@ void Hash_table<T,G>::resize()
     this->size_factor=this->size_factor*this->factor;
     this->con.resizing(size_factor);
 }
+
 template<class T,class G>
 Hash_table<T,G>::~Hash_table()
 {
@@ -164,4 +174,6 @@ Hash_table<T,G>::~Hash_table()
     }
     delete[] data;
 }
+
+
 #endif

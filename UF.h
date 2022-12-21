@@ -38,7 +38,9 @@ public:
 template<class T, class E, class G>
 bool UF<T, E, Cond>::insert(E elem, T group)
 {
-
+    Node<E> node1 = new Node<E>(elem);
+    elements->add(elem->get_key(), node1);
+    node1->group = group;
 
     return true;
 }
