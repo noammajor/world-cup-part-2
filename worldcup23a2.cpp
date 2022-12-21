@@ -56,7 +56,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
 
 output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 {
-	// TODO: Your code goes here
+
 	return StatusType::SUCCESS;
 }
 
