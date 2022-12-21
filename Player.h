@@ -45,6 +45,11 @@ public:
 
     int get_ability() const;
 
+    permutation_t get_per() const;
+
+    void change_per_right( const permutation_t& p);
+    void change_per_left( const permutation_t& p);
+
     };
 
 

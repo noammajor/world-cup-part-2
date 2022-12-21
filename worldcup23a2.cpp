@@ -2,7 +2,7 @@
 
 world_cup_t::world_cup_t()
 {
-    Teams_Players = new UF<Player*, Team*, TeamIDOrder>;
+    Teams_Players = new UF();
     TeamsByAbility = new AVL_Tree<Team, TeamAbilityOrder>;
 }
 
@@ -17,7 +17,7 @@ StatusType world_cup_t::add_team(int teamID)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(!Teams_Players->teamExists(teamID))
+    else if(!Teams_Players->teamexists(teamID))
     {
         return StatusType::FAILURE;
     }
@@ -35,7 +35,7 @@ StatusType world_cup_t::remove_team(int teamID)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(Teams_Players->teamExists(teamID))
+    else if(Teams_Players->teamexists(teamID))
     {
         return StatusType::FAILURE;
     }
@@ -58,8 +58,19 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
     {
         return StatusType::INVALID_INPUT;
     }
-    permutation_t temp = TeamsByAbility->search(teamId)->
-    Player* player=new Player(playerId,)
+    if(Teams_Players->teamexists( teamId)== false)
+    {
+        return StatusType::FAILURE;
+    }
+    if(Teams_Players->player_exists(playerId))
+    {
+        return StatusType::FAILURE;
+    }
+    Teams_Players->get_team( teamId)->change_per( spirit);
+    permutation_t temp = TeamsByAbility->search(teamId)->get_data_Node().get_per();
+    Player* player=new Player(playerId,gamesPlayed,ability,cards,goalKeeper,temp);
+    Teams_Players->insert(player, Teams_Players->get_team( teamId));
+
 	return StatusType::SUCCESS;
 }
 

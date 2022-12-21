@@ -46,7 +46,9 @@ public:
 
     int get_ability() const;
 
+    permutation_t get_per() const;
 
+    void change_per( const permutation_t& p);
 };
 
 class TeamIDOrder

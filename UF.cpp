@@ -11,11 +11,6 @@ permutation_t UF::getTeamPermutation() const
 
 }
 
-
-
-
-
-
 bool UF::teamexists(int teamid) const
 {
     if(groups->search(teamid)==nullptr)
@@ -119,6 +114,14 @@ Team* UF::get_team(int teamID)
         return nullptr;
     return node->get_data_Node();
 }
-
+Player* UF::player_exists(int key) const
+{
+    if(elements->get(key)== nullptr)
+    {
+        return nullptr
+    }
+    else
+        return elements->get(key)->node->data;
+}
 
 

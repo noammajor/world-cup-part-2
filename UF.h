@@ -20,6 +20,7 @@ public:
     UF(const UF&) = delete;
     ~UF() = default; ////////////////////////do later
 
+    Player* player_exists(int key) const;
     void insert(Player* elem, Team* group);
     void Union(Team* g1, Team* g2);
     G* find(int key);

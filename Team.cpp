@@ -52,6 +52,15 @@ bool Team::operator >(const Team* p1) const
         return false;
 }
 
+permutation_t Team::get_per() const
+{
+    return amount;
+}
+
+void Team::change_per( const permutation_t& p)
+{
+    amount=amount*p;
+}
 int Team::tot_game_points() const
 {
     return points + players_ability;
