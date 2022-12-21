@@ -34,7 +34,7 @@ Pocket* Hash_table::get(int key) const
 }
 
 
-void Hash_table::add(int key, const  UF_Node* elem)
+void Hash_table::add(int key, UF_Node* elem)
 {
     if(this->size_factor <= this->size)
     {
@@ -65,8 +65,7 @@ void Hash_table::add(int key, const  UF_Node* elem)
 void Hash_table::resize()
 {
     condition c=condition(size_factor*factor);
-    Pocket* tempData = new Pocket[size_factor * factor];
-
+    Pocket** tempData = new Pocket*[size_factor * factor];
     for (int i = 0 ; i < size_factor*factor ; ++i)
     {
         tempData[i] = nullptr;
@@ -75,7 +74,7 @@ void Hash_table::resize()
     {
         if(this->data[i] != nullptr)
         {
-            Pocket* temp=data[i];
+            Pocket* temp = data[i];
             while (temp!= nullptr)
             {
                 int index = c(temp->key);

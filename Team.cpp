@@ -1,6 +1,6 @@
 #include "Team.h"
 
-Team::Team(int ID): teamID(ID), points(points), num_goalkeepers(0), players(nullptr){}
+Team::Team(int ID): teamID(ID), points(points), num_goalkeepers(0), playersUF(nullptr){}
 
 
 int Team::get_num_goalkeepers() const
@@ -20,7 +20,7 @@ void Team::add_points(int points_add)
 
 void Team::more_game_played()
 {
-    players->add_game();
+    playersUF->player->add_game();
 }
 
 void Team::add_player (Player* player)
@@ -40,6 +40,11 @@ bool Team::is_legal() const
 int Team::get_ability() const
 {
     return players_ability;
+}
+
+UF_Node* Team::get_players() const
+{
+
 }
 
 bool Team::operator >(const Team* p1) const
