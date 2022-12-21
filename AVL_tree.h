@@ -101,7 +101,7 @@ public:
 
     bool isSmallest(const Node<T,Cond>* t) const;
 
-    Node<T,Cond>* set_closests_small(Node<T,Cond>* player) const;
+ //   Node<T,Cond>* set_closests_small(Node<T,Cond>* player) const;
 
     void merge (T* united, T* t1, int t1_size, T* t2, int t2_size);
 
@@ -613,7 +613,7 @@ bool AVL_Tree<T, Cond>::isSmallest(const Node<T,Cond>* t) const
         return true;
     return false;
 }
-
+/*
 template<class T, class Cond>
 Node<T,Cond>* AVL_Tree<T, Cond>::set_closests_small(Node<T,Cond>* player) const
 {
@@ -642,7 +642,7 @@ Node<T,Cond>* AVL_Tree<T, Cond>::set_closests_small(Node<T,Cond>* player) const
     }
     return temp->son_smaller;
 }
-
+*/
 template<class T, class Cond>
 void AVL_Tree<T,Cond>::postorderDelete_nodes(Node<T,Cond>* p)
 {

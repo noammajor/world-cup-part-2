@@ -84,7 +84,6 @@ G* UF<T, E, Cond>::find(int key)
       tempsqeezelines1=tempsqeezelines2;
   }
     return tempnode->group;
-
 }
 
 
