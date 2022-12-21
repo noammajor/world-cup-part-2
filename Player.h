@@ -15,14 +15,14 @@ class Player
     bool goalkeeper;
     int teamsGamesPlayed;
     int ability;
-    permutation_t partual_spirit;
+    permutation_t partial_spirit;
 
 
 public:
 
 
     Player(int playerId, int gamesPlayed,int ability, int cards, bool goalKeeper,const permutation_t &spirit):player_id(playerId),ability
-    (ability),games_played(gamesPlayed),cards(cards),goalkeeper(goalKeeper),partual_spirit(spirit){};
+    (ability),games_played(gamesPlayed),cards(cards),goalkeeper(goalKeeper),partial_spirit(spirit){};
 
     ~Player() = default;
 
