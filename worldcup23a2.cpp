@@ -17,13 +17,14 @@ StatusType world_cup_t::add_team(int teamId)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(players_table.teamexists(teamid)==false)
+    else if(Teams_Players->teamexists(teamId)==false)
     {
         return StatusType::FAILURE;
     }
     else
     {
-        players_table.addteam(teamId);
+        Teams_Players->addTeam(teamId);
+        TeamsByAbility->insert_to_tree(teamId);
         return StatusType::SUCCESS;
     }
 }
@@ -34,16 +35,16 @@ StatusType world_cup_t::remove_team(int teamId)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(players_table.teamexists(teamid)==true)
+    else if(Teams_Players->teamexists(teamId)==true)
     {
         return StatusType::FAILURE;
     }
     else
     {
-        player_table.removeteam(teamId);
+        Teams_Players->removeTeam(teamId);
+        TeamsByAbility->remove(teamId);
         return StatusType::SUCCESS;
     }
-
 }
 
 StatusType world_cup_t::add_player(int playerId, int teamId,

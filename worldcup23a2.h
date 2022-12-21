@@ -19,7 +19,7 @@
 #include "UF.h"
 #include "Player.h"
 #include "Team.h"
-
+#include "AVL_tree.h"
 
 class world_cup_t {
 private:
