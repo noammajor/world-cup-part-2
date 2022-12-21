@@ -3,6 +3,20 @@
 
 #include "UF.h"
 
+
+template<class T,class G>
+struct UF_Node
+{
+    UF_Node* father;
+    T data;
+    int size;
+    G* group;
+
+    explicit UF_Node(T data): father(nullptr), data(data), size(1){}
+
+};
+
+
 template<class T,class G>
 struct Pocket
 {
@@ -38,7 +52,7 @@ class Hash_table
     condition con;
 
 public:
-    Hash_table<T,G>(): size(0),data(new Pocket<T>[10]),size_factor(10), con()
+    Hash_table<T,G>(): size(0),data(new Pocket<T, G>[10]),size_factor(10), con()
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -51,10 +65,6 @@ public:
     Hash_table<T,G>(const Hash_table<T,G> &hash) = delete;
     void add(int key, const  UF_Node<T,G>* data);
 
-    ~Hash_table<T,G>();
-    Hash_table<T,G> &operator=(const Hash_table<T,G> &hash) = delete;
-    Hash_table<T,G>(const Hash_table<T,G> &hash) = delete;
-    void add(int key, const  UF_Node<T,G>* data);
  //   bool remove (int key);
     void resize();
     Pocket<T,G>* get(int key) const;
@@ -99,7 +109,7 @@ Pocket<T,G>* Hash_table<T,G>::get(int key) const
 
 
 template<class T,class G>
-void Hash_table<T,G>::add(int key, const  UF_Node<T,G>* data)
+void Hash_table<T,G>::add(int key, const  UF_Node<T,G>* elem)
 {
     if(this->size_factor <= this->size)
     {
@@ -178,7 +188,7 @@ Hash_table<T,G>::~Hash_table()
             Pocket<T,G>* temp=data[i];
             while(temp!= nullptr)
             {
-                Pocket<T>* tempdel=temp;
+                Pocket<T, G>* tempdel=temp;
                 temp=temp->next;
                 delete tempdel;
             }

@@ -2,7 +2,8 @@
 
 world_cup_t::world_cup_t()
 {
-	// TODO: Your code goes here
+    Teams_Players = new UF<Player*, Team*, TeamIDOrder>;
+    TeamsByAbility = new AVL_Tree<Team, TeamAbilityOrder>;
 }
 
 world_cup_t::~world_cup_t()

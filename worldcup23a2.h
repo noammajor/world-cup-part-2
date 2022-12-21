@@ -16,12 +16,16 @@
 #define WORLDCUP23A2_H_
 
 #include "wet2util.h"
+#include "UF.h"
+#include "Player.h"
+#include "Team.h"
+
 
 class world_cup_t {
 private:
-	//
-	// Here you may add anything you want
-	//
+	UF<Player*, Team*, TeamIDOrder>* Teams_Players;
+    AVL_Tree<Team, TeamAbilityOrder>* TeamsByAbility;
+
 	
 public:
 	// <DO-NOT-MODIFY> {
