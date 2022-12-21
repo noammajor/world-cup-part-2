@@ -20,7 +20,7 @@ struct Node
 template<class T, class E, class Cond>
 class UF
 {
-    Pocket<E>* elements;
+    Hash_table<E>* elements;
     Node<T, Cond>* groups;
     int size;
 
@@ -64,6 +64,8 @@ void UF<T, E, Cond>::Union(T g1, T g2)
 template<class T, class E, class Cond>
 T UF<T, E, Cond>::find(E elem) const
 {
+
+
 
 }
 

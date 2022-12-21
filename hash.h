@@ -28,7 +28,7 @@ public:
 };
 
 
-template<class T,class condition>
+template<class T>
 class Hash_table
 {
     int size;
@@ -38,7 +38,7 @@ class Hash_table
     condition con;
 
 public:
-    Hash_table(condition con): size(0),data(new Pocket<T>[10]),size_factor(10), con(con(10))
+    Hash_table(): size(0),data(new Pocket[10]),size_factor(10), con(con)
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -46,15 +46,15 @@ public:
         }
     };
     ~Hash_table();
-    Hash_table<T,condition> &operator=(const Hash_table<T,condition> &hash) = delete;
-    Hash_table<T,condition>(const Hash_table<T,condition> &hash) = delete;
-    void add(int key, const  Node<T,condition>* data);
+    Hash_table<T> &operator=(const Hash_table<T> &hash) = delete;
+    Hash_table<T>(const Hash_table<T> &hash) = delete;
+    void add(int key, const  Node<T>* data);
  //   bool remove (int key);
     void resize();
     Pocket<T>* get(int key) const;
 };
-template<class T,class condition>
-Pocket<T>* Hash_table<T,condition>::get(int key) const
+template<class T>
+Pocket<T>* Hash_table<T>::get(int key) const
 {
     int index=this->con(key);
     Pocket<T>* temp=this->data[index];
@@ -78,8 +78,8 @@ Pocket<T>* Hash_table<T,condition>::get(int key) const
 }
 
 
-template<class T,class condition>
-void Hash_table<T,condition>::add(int key, const  Node<T,condition>* data)
+template<class T>
+void Hash_table<T>::add(int key, const  Node<T>* data)
 {
     if(this->size_factor<=this->size)
     {
