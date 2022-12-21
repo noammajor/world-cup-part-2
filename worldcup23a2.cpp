@@ -47,11 +47,19 @@ StatusType world_cup_t::remove_team(int teamID)
     }
 }
 
-StatusType world_cup_t::add_player(int playerId, int teamId,
-                                   const permutation_t &spirit, int gamesPlayed,
+StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t &spirit, int gamesPlayed,
                                    int ability, int cards, bool goalKeeper)
 {
-    Player* player=new
+    if(playerId<=0 || teamId<=0 || gamesPlayed<0 ||cards<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    if(!(spirit.isvalid()))
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    permutation_t temp = TeamsByAbility->search(teamId)->
+    Player* player=new Player(playerId,)
 	return StatusType::SUCCESS;
 }
 
