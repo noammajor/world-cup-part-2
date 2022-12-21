@@ -38,7 +38,7 @@ class Hash_table
     condition con;
 
 public:
-    Hash_table(): size(0),data(new Pocket[10]),size_factor(10), con(con)
+    Hash_table(): size(0),data(new Pocket<T>[10]),size_factor(10), con(con)
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -136,20 +136,17 @@ void Hash_table<T,condition>::resize()
                         }
                         temprun->next=temp;
                     }
-                    Pocket<T>* detem1=temp;
                     temp=temp->next;
-                    delete detem1;
                 }
             }
         }
-
-    delete this->data;
+    delete[] this->data;
     this->data=tempData;
     this->size_factor=this->size_factor*this->factor;
     this->con.resizing(size_factor);
 }
-template<class T,class condition>
-Hash_table<T,condition>::~Hash_table()
+template<class T>
+Hash_table<T>::~Hash_table()
 {
 
     for (int i = 0; i < size_factor; ++i)
