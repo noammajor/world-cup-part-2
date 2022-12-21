@@ -4,6 +4,8 @@
 #include "AVL_tree.h"
 #include "Player.h"
 #include "wet2util.h"
+#include "UF.h"
+
 template<class T, class Cond>
 class AVL_Tree;
 
@@ -13,7 +15,7 @@ class Team
     int points;
     int num_goalkeepers;
     int players_ability;
-    UF_Node<Player, Team>* players;
+    UF_Node* playersUF;
     permutation_t amount;
 
 
@@ -45,6 +47,8 @@ public:
     void more_game_played();
 
     int get_ability() const;
+
+    UF_Node* get_players() const;
 
 
 };

@@ -11,23 +11,23 @@
 
 class UF
 {
-    Hash_table* elements;
-    AVL_Tree<Team, TeamID>* groups;
+    Hash_table* players_table;
+    AVL_Tree<Team*, TeamIDOrder>* teams_tree;
 
 public:
-    UF(): elements(new Hash_table), groups(new AVL_Tree<Team,TeamID>){}
+    UF(): players_table(new Hash_table), teams_tree(new AVL_Tree<Team,TeamID>){}
     UF& operator=(const UF&) = delete;
     UF(const UF&) = delete;
     ~UF() = default; ////////////////////////do later
 
     void insert(Player* elem, Team* group);
-    void Union(Team* g1, Team* g2);
+    void Union(UF_Node* r1, UF_Node* r2);
     G* find(int key);
     bool connected(Player* elem1, Player* elem2) const;
     bool addTeam(int id);
     bool removeTeam(int id);
     T* getPlayer(int id);
-    bool teamexists(int teamid) const;
+    bool teamExists(int teamID) const;
     permutation_t getTeamPermutation() const;
     Team* get_team(int teamID) const;
 

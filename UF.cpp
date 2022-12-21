@@ -16,9 +16,9 @@ permutation_t UF::getTeamPermutation() const
 
 
 
-bool UF::teamexists(int teamid) const
+bool UF::teamExists(int teamid) const
 {
-    if(groups->search(teamid)==nullptr)
+    if(teams_tree->search(teamid)==nullptr)
     {
         return true;
     }
@@ -28,39 +28,38 @@ bool UF::teamexists(int teamid) const
 
 bool UF::addTeam(int id)
 {
-    return groups->insert_to_tree(id);
+    return teams_tree->insert_to_tree(id);
 }
 
 
 bool UF::removeTeam(int id)
 {
-    return groups->remove(id);
+    return teams_tree->remove(id);
 }
 
 
 Player* UF::getPlayer(int id)
 {
-    Pocket* temp = elements->get(id);
+    Pocket* temp = players_table->get(id);
     if(temp == nullptr)
     {
         return nullptr;
     }
-    return temp->node->data;
+    return temp->node->player;
 }
 
 
-void UF::insert(Player* elem, Team* group)
+void UF::insert(Player* player1, Team* team1)
 {
-    UF_Node node1 = new UF_Node(elem);
-    elements->add(elem->get_playerID(), node1);
-    node1->group = group;
-    UF_Node root = group->get_elements();/////////
-    node1.father = root;
+    UF_Node* node1 = new UF_Node(player1);
+    players_table->add(player1->get_playerID(), node1);
+    node1->team = team1;
+    UF_Node* root = team1->get_players();/////////
+    node1->father = root;
     root->size++;
 
     // elem->partial_spirit += team_spirit
 
-    return true;
 }
 
 
@@ -70,28 +69,26 @@ bool UF::connected(Player* elem1, Player* elem2) const
 }
 
 
-void UF::Union(Team* g1, Team* g2)
+void UF::Union(UF_Node* r1, UF_Node* r2)
 {
-    if (g1->get_ID() == g2->get_ID())
+    if (r1 == r2)
         return;
-    UF_Node root1 = g1->get_elements();
-    UF_Node root2 = g2->get_elements();
-    if (root1->size > g2->size)
+    if (r1->size > r2->size)
     {
-        root2->father = root1;
-        root1->size += root2->size;
+        r2->father = r1;
+        r1->size += r2->size;
     }
     else
     {
-        root1->father = root2;
-        root2->size += root1->size;
+        r1->father = r2;
+        r2->size += r1->size;
     }
 }
 
 
 Team* UF::find(int key)
 {
-    Pocket* pocket1 = this->elements.get(key);
+    Pocket* pocket1 = this->players_table->get(key);
     if(pocket1 == nullptr)
     {
         return nullptr;
@@ -109,12 +106,12 @@ Team* UF::find(int key)
         tempSqueezeLines1->father = rootNode;
         tempSqueezeLines1 = tempSqueezeLines2;
     }
-    return rootNode->group;
+    return rootNode->team;
 }
 
-Team* UF::get_team(int teamID)
+Team* UF::get_team(int teamID) const
 {
-    Node<Team, TeamIDOrder> node* = groups->search(teamID);
+    Node<Team*, TeamIDOrder>* node = teams_tree->search(teamID);
     if (!node)
         return nullptr;
     return node->get_data_Node();
