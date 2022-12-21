@@ -26,7 +26,11 @@ class UF
     int size;
 
 public:
-    UF();
+    UF(): elements(new Hash_table<T,G>), groups(new AVL_Tree<G, Cond>), size(0){}
+    UF<T, G, Cond>& operator=(const UF<T, G, Cond>&) = delete;
+    UF<T, G, Cond>(const UF<T, G, Cond>&) = delete;
+    ~UF() = default; ////////////////////////do later
+
     bool insert(T elem, G group);
     void Union(G g1, G g2);
     G* find(int key);
@@ -46,7 +50,6 @@ bool UF<T, G, Cond>::insert(T elem, G group)
 
     // elem->partial_spirit += team_spirit
 
-
     return true;
 }
 
@@ -58,42 +61,34 @@ void UF<T, G, Cond>::Union(G g1, G g2)
     UF_Node<T,G> root1 = g1->get_elements();
     UF_Node<T,G> root2 = g2->get_elements();
     if (g1->get_size() > g2->get_size())
-    {
-        root2->make_father(root1);
-        g1->resize(g2->get_size());
-    }
+        root2.father = root1;
     else
-    {
-        root1->make_father(root2);
-        g2->resize(g1->get_size());
-    }
+        root1.father = root2;
 }
-
-// new functions- make_father and resize
 
 
 template<class T, class G, class Cond>
 G* UF<T, G, Cond>::find(int key)
 {
-    Pocket<T, G>* temp1 = this->elements.get(key);
-    if(temp1 == nullptr)
+    Pocket<T, G>* pocket1 = this->elements.get(key);
+    if(pocket1 == nullptr)
     {
         return nullptr;
     }
-    UF_Node<T,G>* tempnode = temp1->node;
-    while(tempnode->father!= nullptr)
+    UF_Node<T,G>* rootNode = pocket1->node;
+    while(rootNode->father != nullptr)
     {
-        tempnode=tempnode->father;// hold top of the group
+        rootNode = rootNode->father; // hold top of the group
     }
-    UF_Node<T,G>* tempsqeezelines1=temp1->node;
-    UF_Node<T,G>* tempsqeezelines2=temp1->node;
-    while(tempsqeezelines1->father!= nullptr)
+    UF_Node<T,G>* tempSqueezeLines1 = pocket1->node;
+    UF_Node<T,G>* tempSqueezeLines2 = pocket1->node;
+    while(tempSqueezeLines1->father != nullptr)
     {
-        tempsqeezelines2=tempsqeezelines1->father;
-        tempsqeezelines1->father = tempnode;
-        tempsqeezelines1=tempsqeezelines2;
+        tempSqueezeLines2 = tempSqueezeLines1->father;
+        tempSqueezeLines1->father = rootNode;
+        tempSqueezeLines1 = tempSqueezeLines2;
     }
-    return tempnode->group;
+    return rootNode->group;
 }
 
 
