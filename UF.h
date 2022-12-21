@@ -27,15 +27,15 @@ public:
     bool addTeam(int id);
     bool removeTeam(int id);
     T* getPlayer(int id);
-    bool teamexists(int teamid) const;
+    bool teamExists(int teamID) const;
 
 
 };
 
 template<class T, class G, class Cond>
-bool teamexists(int teamid) const
+bool teamExists(int teamID) const
 {
-    if(groups->search(teamid)==nullptr)
+    if(groups->search(teamID) == nullptr)
     {
         return true;
     }
