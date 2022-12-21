@@ -17,7 +17,7 @@ StatusType world_cup_t::add_team(int teamID)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(!Teams_Players->teamexists(teamID))
+    else if(!Teams_Players->teamExists(teamID))
     {
         return StatusType::FAILURE;
     }
@@ -35,7 +35,7 @@ StatusType world_cup_t::remove_team(int teamID)
     {
         return StatusType::INVALID_INPUT;
     }
-    else if(Teams_Players->teamexists(teamID))
+    else if(Teams_Players->teamExists(teamID))
     {
         return StatusType::FAILURE;
     }
@@ -58,7 +58,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
     {
         return StatusType::INVALID_INPUT;
     }
-    if(Teams_Players->teamexists( teamId)== false)
+    if(Teams_Players->teamExists( teamId)== false)
     {
         return StatusType::FAILURE;
     }
@@ -66,7 +66,9 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
     {
         return StatusType::FAILURE;
     }
-    Teams_Players->get_team( teamId)->change_per( spirit);
+    Team* temp1 = Teams_Players->get_team( teamId);
+    temp1->change_per( spirit);
+    temp1->add_ability(ability);
     permutation_t temp = TeamsByAbility->search(teamId)->get_data_Node().get_per();
     Player* player=new Player(playerId,gamesPlayed,ability,cards,goalKeeper,temp);
     Teams_Players->insert(player, Teams_Players->get_team( teamId));
@@ -76,8 +78,50 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
 
 output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 {
-	// TODO: Your code goes here
-	return StatusType::SUCCESS;
+    if(teamId1<=0 || teamId2<=0 || teamId1==teamId2 )
+    {
+        return output_t<int>(StatusType::INVALID_INPUT) ;
+    }
+    Team* temp1 = Teams_Players->get_team( teamId1);
+    Team* temp2 = Teams_Players->get_team( teamId1);
+    if (temp1== nullptr||temp2== nullptr)
+    {
+        return output_t<int>(StatusType::FAILURE) ;
+    }
+    int team1=temp1->get_points()*temp1->get_ability();
+    int team2=temp2->get_points()*temp2->get_ability();
+    temp1->get_players()->player->add_games(1);
+    temp2->get_players()->player->add_games(1);
+    if(team1!=team2)
+    {
+        if(team1>team2)
+        {
+            temp1->add_points(3);
+            return output_t<int>(1);
+        }
+        else
+            temp2->add_points(3);
+            return output_t<int>(3);
+    }
+    else
+         team1=temp1->get_per().strength();
+         team2=temp2->get_per().strength();
+         if(team1==team2)
+         {
+             temp1->add_points(1);
+             temp2->add_points(1);
+             return output_t<int>(0);
+         }
+         else if(team1>team2)
+         {
+             temp1->add_points(3);
+             return output_t<int>(2);
+         }
+         else
+         {
+             temp2->add_points(3);
+             return output_t<int>(4);
+         }
 }
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)

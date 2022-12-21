@@ -30,6 +30,8 @@ public:
 
     int get_ID () const;
 
+    void add_ability(int amount);
+
     void add_player (Player* player);
 
     bool is_legal() const;

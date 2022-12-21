@@ -7,7 +7,10 @@ int Team::get_num_goalkeepers() const
 {
     return num_goalkeepers;
 }
-
+void Team::add_ability(int amount)
+{
+    players_ability+=amount;
+}
 int Team::get_ID () const
 {
     return this->teamID;
