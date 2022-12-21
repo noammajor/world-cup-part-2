@@ -4,12 +4,13 @@
 #include "hash.h"
 
 
-template<class T>
+template<class T,class G>
 struct Node
 {
     Node* father;
     T data;
     int height;
+    G* group;
 
     T& get_data_Node();
     Node(T data): father(nullptr), data(data), height(1){}
@@ -17,24 +18,24 @@ struct Node
 };
 
 
-template<class T, class E, class Cond>
+template<class T, class E, class G>
 class UF
 {
     Hash_table<E>* elements;
-    Node<T, Cond>* groups;
+    Node<T,G>* groups;
     int size;
 
 public:
     UF();
     bool insert(E elem, T group);
     void Union(T g1, T g2);
-    T find(E elem) const;
+    G* find(E elem) const;
 
 
 };
 
 
-template<class T, class E, class Cond>
+template<class T, class E, class G>
 bool UF<T, E, Cond>::insert(E elem, T group)
 {
 
@@ -42,7 +43,7 @@ bool UF<T, E, Cond>::insert(E elem, T group)
     return true;
 }
 
-template<class T, class E, class Cond>
+template<class T, class E, class G>
 void UF<T, E, Cond>::Union(T g1, T g2)
 {
     if(g1 == g2)
@@ -61,11 +62,28 @@ void UF<T, E, Cond>::Union(T g1, T g2)
     }
 }
 
-template<class T, class E, class Cond>
-T UF<T, E, Cond>::find(E elem) const
+template<class T, class E, class G>
+G* UF<T, E, Cond>::find(int key)
 {
-
-
+  Pocket<T>* temp1 = this->elements.get(key);
+  if(temp1== nullptr)
+  {
+      return nullptr;
+  }
+  Node<T,G>* tempnode = temp1->node;
+  while(tempnode->father!= nullptr)
+  {
+      tempnode=tempnode->father;// hold top of the group
+  }
+  Node<T,G>* tempsqeezelines1=temp1->node;
+  Node<T,G>* tempsqeezelines2=temp1->node;
+  while(tempsqeezelines1->father!= nullptr)
+  {
+      tempsqeezelines2=tempsqeezelines1->father;
+      tempsqeezelines1->father = tempnode;
+      tempsqeezelines1=tempsqeezelines2;
+  }
+    return tempnode->group;
 
 }
 
