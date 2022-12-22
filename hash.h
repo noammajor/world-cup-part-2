@@ -1,7 +1,6 @@
 #ifndef HASH
 #define HASH
 
-#include "UF.h"
 #include "Player.h"
 
 

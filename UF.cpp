@@ -1,6 +1,12 @@
-#include "AVL_tree.h"
 #include "UF.h"
 
+
+
+UF::UF()
+{
+    players_table = new Hash_table();
+    teams_tree = new AVL_Tree<Team*,TeamIDOrder>();
+}
 
 int UF::get_sum_games(int id) const
 {
