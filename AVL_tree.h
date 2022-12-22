@@ -16,6 +16,7 @@ struct Node
     Node* son_larger;
     T data;
     int height;
+    int size;
     T& get_data_Node();
 };
 
@@ -38,8 +39,6 @@ public:
     AVL_Tree<T, Cond>(const AVL_Tree<T, Cond> &tree) = delete;
 
     ~AVL_Tree();
-
-    AVL_Tree<T, Cond>* unite(AVL_Tree<T, Cond>* t2);
 
     void postorderDelete_nodes(Node<T,Cond>* p);
 
@@ -79,37 +78,11 @@ public:
 
     void fix_height (Node<T, Cond>* node);
 
-    void print_tree (int* const output);
-
-    void array_tree (T* const output);
-
-    void inorder_print (Node<T, Cond>* node, int* const output, int* i);
-
-    void inorder_array (Node<T, Cond>* node, T* const output, int* i);
-
-    int knockout_tree (int min, int max);
-
-    void inorder_knockout (Node<T, Cond>* node, int* output, int min, int max, int* i, int* counter);
-
-    void inorder_change (Node<T, Cond>* node, Team* t);
-
     T& get_data(Node<T, Cond>* node) const;
 
     Node<T, Cond>* get_root() const;
 
     T& get_higher() const;
-
-    bool isSmallest(const Node<T,Cond>* t) const;
-
- //   Node<T,Cond>* set_closests_small(Node<T,Cond>* player) const;
-
-    void merge (T* united, T* t1, int t1_size, T* t2, int t2_size);
-
-    Node<T, Cond>* create_next(int index, int size, T* united_data, Node<T, Cond>* node);
-
-    Node<T, Cond>* create_tree(int height);
-
-    void inorder_assign(Node<T, Cond>* node, T* elements, int size, int* i);
 
     int get_size() const;
 
@@ -313,6 +286,7 @@ Node<T, Cond>* AVL_Tree<T, Cond>::insert(Node<T, Cond>* t,const T& data)
         base->son_smaller = nullptr;
         base->father = nullptr;
         base->height = 0;
+        base->size = 1;
         if (!root)
             higher_data = base;
         return base;
@@ -326,6 +300,7 @@ Node<T, Cond>* AVL_Tree<T, Cond>::insert(Node<T, Cond>* t,const T& data)
                 return nullptr;
             t->son_larger = temp;
             temp->father = t;
+            t->size++;
         }
         else if (is_bigger(t->data, data))
         {
@@ -334,6 +309,7 @@ Node<T, Cond>* AVL_Tree<T, Cond>::insert(Node<T, Cond>* t,const T& data)
                 return nullptr;
             t->son_smaller = temp;
             temp->father = t;
+            t->size++;
         }
         else
         {
@@ -493,99 +469,6 @@ void AVL_Tree<T, Cond>::fix_height (Node<T, Cond>* node)
 }
 
 template<class T, class Cond>
-void AVL_Tree<T, Cond>::print_tree (int* const output)
-{
-    int index = 0;
-    int* i = &index;
-    inorder_print(root, output, i);
-}
-
-template<class T, class Cond>
-void AVL_Tree<T, Cond>::array_tree (T* const output)
-{
-    int index = 0;
-    int* i = &index;
-    inorder_array(root, output, i);
-}
-
-template<class T, class Cond>
-void AVL_Tree<T, Cond>::inorder_print (Node<T, Cond>* node,  int* const output, int* i)
-{
-    if (!node)
-        return;
-    inorder_print(node->son_smaller, output, i);
-    output[(*i)++] = node->data->get_playerID();
-    inorder_print(node->son_larger, output, i);
-}
-
-template<class T, class Cond>
-void AVL_Tree<T, Cond>::inorder_array (Node<T, Cond>* node,  T* const output, int* i)
-{
-    if (!node)
-        return;
-    inorder_array(node->son_smaller, output, i);
-    output[(*i)++] = node->data;
-    inorder_array(node->son_larger, output, i);
-}
-
-template<class T, class Cond>
-int AVL_Tree<T, Cond>::knockout_tree (int min, int max)
-{
-    if (this->get_size() == 0)
-        return 0;
-    int* table = new int[2*this->get_size()];
-    int index = 0;
-    int* i = &index;
-    int counter = 0;
-    int* counter_p = &counter;
-    inorder_knockout(root, table, min, max, i, counter_p);
-    if (counter == 0)
-    {
-        delete[] table;
-        return 0;
-    }
-    for (int k = 2 ; k < 2*counter ; k *= 2)
-    {
-        for (int j = 0 ; j < (2*counter - k) ; j += k)
-        {
-            table[j] = table[j + 1] > table[j + k + 1] ? table[j] : table[j + k];
-            table[j + 1] += table[j + k + 1] + 3;
-        }
-    }
-    int winner_id = table[0];
-    delete[] table;
-    return winner_id;
-}
-
-template<class T, class Cond>
-void AVL_Tree<T, Cond>::inorder_knockout (Node<T, Cond>* node, int* output, int min, int max, int* i , int* counter)
-{
-    Cond is_bigger;
-    if (!node)
-        return;
-    if (!(is_bigger(min,node->data)))
-        inorder_knockout(node->son_smaller, output, min, max, i, counter);
-    if (!is_bigger(min, node->data) && !is_bigger(node->data, max))
-    {
-        output[(*i)++] = node->data->get_ID();
-        output[(*i)++] = node->data->tot_game_points();
-        (*counter)++;
-    }
-    if(!is_bigger(node->data, max))
-        inorder_knockout(node->son_larger, output, min, max, i, counter);
-}
-
-template<class T, class Cond>
-void AVL_Tree<T, Cond>::inorder_change (Node<T, Cond>* node, Team* t)
-{
-    if (!node)
-        return;
-    inorder_change(node->son_smaller, t);
-    node->data->change_team(t);
-    inorder_change(node->son_larger, t);
-}
-
-template<class T, class Cond>
 T& AVL_Tree<T, Cond>::get_data(Node<T, Cond>* node) const
 {
     return node->data;
@@ -603,46 +486,6 @@ T& AVL_Tree<T, Cond>::get_higher() const
     return higher_data->data;
 }
 
-template<class T, class Cond>
-bool AVL_Tree<T, Cond>::isSmallest(const Node<T,Cond>* t) const
-{
-    Node<T,Cond>* temp = root;
-    while(temp->son_smaller != nullptr)
-        temp = temp->son_smaller;
-    if(t == temp)
-        return true;
-    return false;
-}
-/*
-template<class T, class Cond>
-Node<T,Cond>* AVL_Tree<T, Cond>::set_closests_small(Node<T,Cond>* player) const
-{
-    if(isSmallest(player))
-        return nullptr;
-    Node<T, Cond>* temp = player;
-    if(temp->son_smaller == nullptr)
-    {
-        if(temp->father == nullptr)
-        {
-            return nullptr;
-        }
-        else if(temp == temp->father->son_smaller)
-        {
-            while(temp == temp->father->son_smaller)
-            {
-                temp = temp->father;
-            }
-            temp = temp->father;
-            return temp;
-        }
-        else if(temp == temp->father->son_larger)
-        {
-                return temp->father;
-        }
-    }
-    return temp->son_smaller;
-}
-*/
 template<class T, class Cond>
 void AVL_Tree<T,Cond>::postorderDelete_nodes(Node<T,Cond>* p)
 {
@@ -669,103 +512,6 @@ template<class T, class Cond>
 AVL_Tree<T,Cond>::~AVL_Tree()
 {
     postorderDelete_nodes(root);
-}
-
-template<class T, class Cond>
-AVL_Tree<T, Cond>* AVL_Tree<T, Cond>::unite(AVL_Tree<T, Cond>* t2)
-{
-    T *t1_data = new T[this->size];
-    T *t2_data = new T[t2->size];
-    this->array_tree(t1_data);
-    t2->array_tree(t2_data);
-    int size = this->size + t2->size;
-    T *united_data = new T[size];
-    merge(united_data, t1_data, this->size, t2_data, t2->size);
-    Node<T, Cond> *root = new Node<T, Cond>;
-    create_next(0, size, united_data, root);
-    AVL_Tree<T, Cond> *tree = new AVL_Tree<T, Cond>(root, size);
-    tree->Highest_setting();
-    delete[] t1_data;
-    delete[] t2_data;
-    delete[] united_data;
-    root->father = nullptr;
-    return tree;
-}
-
-template<class T, class Cond>
-Node<T, Cond>* AVL_Tree<T, Cond>::create_next(int index, int size, T* united_data, Node<T, Cond>* node)
-{
-    node->data = united_data[index + size/2];
-    if (size/2 > 0)
-    {
-        Node<T, Cond>* next_smaller = new Node<T, Cond>;
-        node->son_smaller = create_next(index, size/2, united_data, next_smaller);
-        node->son_smaller->father = node;
-    }
-    else
-        node->son_smaller = nullptr;
-    if ((size - 1)/2 > 0)
-    {
-        Node<T, Cond>* next_larger = new Node<T, Cond>;
-        node->son_larger = create_next(index + size/2 + 1, (size - 1)/2, united_data, next_larger);
-        node->son_larger->father = node;
-    }
-    else
-        node->son_larger = nullptr;
-    node->height = height(node);
-    return node;
-}
-/*
-template<class T, class Cond>
-void AVL_Tree<T, Cond>::merge (T* united, T* t1, int t1_size, T* t2, int t2_size)
-{
-    Cond is_bigger;
-    int i = 0;
-    int j = 0;
-    int k = 0;
-    while (i < t1_size && j < t2_size)
-        is_bigger(t1[i], t2[j]) ? united[k++] = t2[j++] : united[k++] = t1[i++];
-    while (i  < t1_size)
-        united[k++] =t1[i++];
-    while (j < t2_size)
-        united[k++] =  t2[j++];
-}
-*/
-template<class T, class Cond>
-Node<T, Cond>* AVL_Tree<T, Cond>::create_tree(int height)
-{
-    if (height <= 0)
-        return nullptr;
-    Node<T, Cond>* node = new Node<T, Cond>;
-    node->father = nullptr;
-    node->height = 0;
-    node->son_larger = create_tree(height - 1);
-    if (node->son_larger)
-        node->son_larger->father = node;
-    node->son_smaller = create_tree(height - 1);
-    if (node->son_smaller)
-        node->son_smaller->father = node;
-    return node;
-}
-
-template<class T, class Cond>
-void AVL_Tree<T, Cond>::inorder_assign(Node<T, Cond>* node, T* elements, int size, int* i)
-{
-    if (!node)
-        return;
-    inorder_assign(node->son_smaller, elements, size, i);
-    if (*i == size)
-    {
-        if (node == node->father->son_smaller)
-            node->father->son_smaller = nullptr;
-        else
-            node->father->son_larger = nullptr;
-        delete node;
-        return;
-    }
-    node->data = elements[(*i)++];
-    node->height = height(node);
-    inorder_assign(node->son_larger, elements, size, i);
 }
 
 template<class T, class Cond>
