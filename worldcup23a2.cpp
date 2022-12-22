@@ -189,6 +189,7 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 {
 
+
 }
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
