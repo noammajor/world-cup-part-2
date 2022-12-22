@@ -1,6 +1,5 @@
 #include "Team.h"
 
-Team::Team(int ID): teamID(ID), points(points), num_goalkeepers(0), playersUF(nullptr){}
 
 void Team::add_ability(int amount)
 {

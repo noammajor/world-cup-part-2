@@ -129,29 +129,24 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
             temp1->add_points(3);
             return output_t<int>(1);
         }
-        else
-            temp2->add_points(3);
-            return output_t<int>(3);
+        temp2->add_points(3);
+        return output_t<int>(3);
     }
-    else
-         team1_force = temp1->get_per().strength();
-         team2_force = temp2->get_per().strength();
-         if(team1_force == team2_force)
-         {
-             temp1->add_points(1);
-             temp2->add_points(1);
-             return output_t<int>(0);
-         }
-         else if(team1_force > team2_force)
-         {
-             temp1->add_points(3);
-             return output_t<int>(2);
-         }
-         else
-         {
-             temp2->add_points(3);
-             return output_t<int>(4);
-         }
+    team1_force = temp1->get_per().strength();
+    team2_force = temp2->get_per().strength();
+    if(team1_force == team2_force)
+    {
+        temp1->add_points(1);
+        temp2->add_points(1);
+        return output_t<int>(0);
+    }
+    if(team1_force > team2_force)
+    {
+        temp1->add_points(3);
+        return output_t<int>(2);
+    }
+    temp2->add_points(3);
+    return output_t<int>(4);
 }
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)

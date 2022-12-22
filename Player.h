@@ -11,18 +11,18 @@ class Player
 {
     int player_id;
     int games_played;
+    int ability;
     int cards;
     bool goalkeeper;
     int teamsGamesPlayed;
-    int ability;
     permutation_t partial_spirit;
 
 
 public:
 
 
-    Player(int playerId, int gamesPlayed,int ability, int cards, bool goalKeeper,const permutation_t &spirit):player_id(playerId),ability
-    (ability),games_played(gamesPlayed),cards(cards),goalkeeper(goalKeeper),partial_spirit(spirit){};
+    Player(int playerId, int gamesPlayed,int ability, int cards, bool goalKeeper,const permutation_t &spirit):player_id(playerId),
+    games_played(gamesPlayed), ability(ability), cards(cards), goalkeeper(goalKeeper), partial_spirit(spirit){};
 
     ~Player() = default;
 

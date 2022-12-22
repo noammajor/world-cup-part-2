@@ -568,7 +568,6 @@ void AVL_Tree<T, Cond>::set_root()
 template<class T, class Cond>
 Node<T, Cond>* AVL_Tree<T, Cond>::find_index(int index) const
 {
-    Node<T, Cond>* ptr = root;
     return find_index_rec(root, index);
 }
 

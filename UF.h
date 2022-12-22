@@ -9,6 +9,14 @@
 
 class TeamIDOrder;
 
+class Team;
+
+class Player;
+
+class Hash_table;
+
+class UF_Node;
+
 
 class UF
 {
@@ -16,7 +24,7 @@ class UF
     AVL_Tree<Team*, TeamIDOrder>* teams_tree;
 
 public:
-    UF(): players_table(new Hash_table()), teams_tree(new AVL_Tree<Team*,TeamIDOrder>()){}
+    UF();
     UF& operator=(const UF&) = delete;
     UF(const UF&) = delete;
     ~UF() = default; ////////////////////////do later
@@ -34,5 +42,7 @@ public:
     int get_team_points(int id) const;
 
 };
+
+
 
 #endif //UF_H

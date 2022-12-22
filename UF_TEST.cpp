@@ -1,10 +1,19 @@
-#include "UF.h"
+#include "worldcup23a2.h"
 #include <stdlib.h>
 #include <cstdlib>
 #include "assert.h"
 
 int main()
 {
+
+    world_cup_t test;
+    test.add_team(1);
+    test.add_team(2);
+    test.add_team(3);
+    test.add_team(4);
+    test.remove_team(1);
+
+
     /*int arr[100];
     Hash_table<int,int> HTtest;
     UF<int,int,int> test;

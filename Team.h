@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "wet2util.h"
 #include "UF.h"
-#include "hash.h"
+//#include "hash.h"
 
 
 class Player;
@@ -23,7 +23,7 @@ class Team
 
 
 public:
-    Team(int ID);
+    Team(int ID): teamID(ID), points(0), num_goalkeepers(0), playersUF(nullptr){}
 
     Team& operator=(const Team&) = delete;
 
