@@ -4,34 +4,22 @@
 
 int UF::get_sum_games(int id) const
 {
-    return players_table->get_games( id);
+    return players_table->get_games(id);
 }
-
-permutation_t UF::getTeamPermutation() const
-{
-
-
-
-}
-
-
-
-
-
 
 bool UF::teamExists(int teamID) const
 {
-    if(teams_tree->search(teamID)==nullptr)
+    if(!teams_tree->search(teamID))
     {
-        return true;
+        return false;
     }
     else
-        return false;
+        return true;
 }
 
-bool UF::addTeam(int id)
+bool UF::addTeam(Team* team)
 {
-    return teams_tree->insert_to_tree(id);
+    return teams_tree->insert_to_tree(team);
 }
 
 

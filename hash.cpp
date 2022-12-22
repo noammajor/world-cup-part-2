@@ -104,7 +104,6 @@ void Hash_table::resize()
 
 Hash_table::~Hash_table()
 {
-
     for (int i = 0; i < size_factor; ++i)
     {
         if(this->data[i]!= nullptr)
@@ -124,15 +123,13 @@ Hash_table::~Hash_table()
 int Hash_table::get_games(int id) const
 {
     Pocket* temp = this->get(id);
-    int sum=0;
-    sum=temp->node->player->get_games_played();
-    UF_Node* runner=temp->node;
-    while(runner->father!=nullptr)
+    int sum = temp->node->player->get_games_played();
+    UF_Node* runner = temp->node;
+    while(runner->father)
     {
-        sum+=runner->player->get_games_played();
-        runner=runner->father;
+        sum += runner->father->player->get_games_played();
+        runner = runner->father;
     }
-    sum+=runner->player->get_games_played();
     return sum;
 }
 
@@ -140,18 +137,16 @@ int Hash_table::get_games(int id) const
 
 bool Hash_table::is_active(int id) const
 {
-    Pocket* temp= this->get(id);
-    UF_Node runner= temp->node;
-    while(runner->father!=nullptr)
+    Pocket* temp = this->get(id);
+    UF_Node* runner = temp->node;
+    while(runner->father)
     {
-        runner=runner->father;
+        runner = runner->father;
     }
-    if(runner->team==nullptr)
+    if(runner->team == nullptr)
     {
-        return false
+        return false;
     }
     else
         return true;
-
-
 }

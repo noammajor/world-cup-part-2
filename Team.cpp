@@ -2,15 +2,11 @@
 
 Team::Team(int ID): teamID(ID), points(points), num_goalkeepers(0), playersUF(nullptr){}
 
-
-int Team::get_num_goalkeepers() const
-{
-    return num_goalkeepers;
-}
 void Team::add_ability(int amount)
 {
     players_ability+=amount;
 }
+
 int Team::get_ID () const
 {
     return this->teamID;
@@ -31,13 +27,6 @@ void Team::add_player (Player* player)
     if (player->is_goalkeeper())
         num_goalkeepers++;
     players_ability += player->get_ability();
-}
-
-bool Team::is_legal() const
-{
-    if (num_goalkeepers > 0)
-        return true;
-    return false;
 }
 
 int Team::get_ability() const
@@ -86,7 +75,7 @@ int Team::get_points() const
 
 bool Team::exists_goalkeeper() const
 {
-    if(this->num_goalkeepers<=0)
+    if(this->num_goalkeepers <= 0)
     {
         return false;
     }
@@ -113,18 +102,11 @@ bool TeamIDOrder::operator()(int num, const Team* t1) const
 
 bool TeamAbilityOrder::operator()(const Team* t1, const Team* t2) const
 {
-    return t1->get_ability() > t2->get_ability();
-}
-
-bool TeamAbilityOrder::operator()(const Team* t1, int num) const
-{
-
-    return t1->get_ability() > num;
-}
-
-bool TeamAbilityOrder::operator()(int num, const Team* t1) const
-{
-
-    return num > t1->get_ability();
+    if (t1->get_ability() > t2->get_ability())
+        return true;
+    else if (t1->get_ability() < t2->get_ability())
+        return false;
+    else
+        return t1->get_ID() > t2->get_ID();
 }
 

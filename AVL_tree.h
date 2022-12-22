@@ -588,6 +588,8 @@ Node<T, Cond>* AVL_Tree<T, Cond>::find_index_rec(Node<T, Cond>* node, int index)
         else
             return find_index_rec(node->son_larger, index - node->son_smaller->size - 1);
     }
+    else if (index == 1)
+        return node;
     return find_index_rec(node->son_larger, index - 1);
 }
 

@@ -24,7 +24,7 @@
 class world_cup_t {
 private:
 	UF* Teams_Players;
-    AVL_Tree<Team, TeamAbilityOrder>* TeamsByAbility;
+    AVL_Tree<Team*, TeamAbilityOrder>* TeamsByAbility;
 
 	
 public:

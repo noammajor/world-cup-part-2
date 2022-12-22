@@ -34,8 +34,6 @@ public:
 
     void add_player (Player* player);
 
-    bool is_legal() const;
-
     bool operator >(const Team* p1) const;
 
     int tot_game_points() const;
@@ -43,8 +41,6 @@ public:
     int get_points() const;
 
     void add_points(int pointsAdd);
-
-    int get_num_goalkeepers() const;
 
     bool exists_goalkeeper() const;
 
@@ -74,8 +70,6 @@ class TeamAbilityOrder
 {
 public:
     bool operator()(const Team* t1, const Team* t2) const;
-    bool operator()(const Team* t1, int num) const;
-    bool operator()(int num, const Team* t1) const;
 
 };
 
