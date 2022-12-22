@@ -27,7 +27,7 @@ public:
     UF();
     UF& operator=(const UF&) = delete;
     UF(const UF&) = delete;
-    ~UF() = default; ////////////////////////do later
+    ~UF();
     bool is_in_tor(int id) const;
     Player* player_exists(int key) const;
     void insert(Player* elem, Team* group);

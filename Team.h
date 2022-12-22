@@ -23,7 +23,12 @@ class Team
 
 
 public:
-    Team(int ID): teamID(ID), points(0), num_goalkeepers(0), playersUF(nullptr){}
+    Team(int ID): teamID(ID), points(0), num_goalkeepers(0), players_ability(0), playersUF(nullptr), amount(permutation_t()){}
+
+
+//////////////////////////// default constructor of permutation
+
+
 
     Team& operator=(const Team&) = delete;
 
@@ -74,8 +79,6 @@ class TeamAbilityOrder
 {
 public:
     bool operator()(const Team* t1, const Team* t2) const;
-    bool operator()(const Team* t1, int num) const;
-    bool operator()(int num, const Team* t1) const;
 
 };
 

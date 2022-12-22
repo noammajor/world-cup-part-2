@@ -112,15 +112,3 @@ bool TeamAbilityOrder::operator()(const Team* t1, const Team* t2) const
         return t1->get_ID() > t2->get_ID();
 }
 
-bool TeamAbilityOrder::operator()(const Team* t1, int num) const
-{
-
-    return t1->get_ability() > num;
-}
-
-bool TeamAbilityOrder::operator()(int num, const Team* t1) const
-{
-
-    return num > t1->get_ability();
-}
-

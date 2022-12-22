@@ -8,6 +8,12 @@ UF::UF()
     teams_tree = new AVL_Tree<Team*,TeamIDOrder>();
 }
 
+UF::~UF()
+{
+    delete players_table;
+    delete teams_tree;
+}
+
 int UF::get_sum_games(int id) const
 {
     return players_table->get_games(id);
@@ -37,7 +43,9 @@ bool UF::addTeam(Team* team)
 
 bool UF::removeTeam(int id)
 {
-    teams_tree->search(id)->get_data_Node()->get_players()->team = nullptr;
+    UF_Node* players = teams_tree->search(id)->get_data_Node()->get_players();
+    if (players)
+        players->team = nullptr;
     return teams_tree->remove(id);
 }
 

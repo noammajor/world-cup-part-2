@@ -8,6 +8,7 @@ world_cup_t::world_cup_t()
 
 world_cup_t::~world_cup_t()
 {
+    TeamsByAbility->postorderDelete_data(TeamsByAbility->get_root());
     Teams_Players->pre_des();
     delete Teams_Players;
     delete TeamsByAbility;
@@ -93,7 +94,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
             temp1->add_goalkeeper();
         }
         TeamsByAbility->insert_to_tree((temp1));
-        permutation_t per1 = TeamsByAbility->search(teamId)->get_data_Node()->get_per();
+        permutation_t per1 = TeamsByAbility->search(temp1)->get_data_Node()->get_per();
         Player *player = new Player(playerId, gamesPlayed, ability, cards, goalKeeper, per1);
         Teams_Players->insert(player, Teams_Players->get_team(teamId));
 
