@@ -121,7 +121,7 @@ Hash_table::~Hash_table()
     delete[] data;
 }
 
-int get_games(int id) cons
+int Hash_table::get_games(int id) const
 {
     Pocket* temp = this->get(id);
     int sum=0;
@@ -134,4 +134,24 @@ int get_games(int id) cons
     }
     sum+=runner->player->get_games_played();
     return sum;
+}
+
+
+
+bool Hash_table::is_active(int id) const
+{
+    Pocket* temp= this->get(id);
+    UF_Node runner= temp->node;
+    while(runner->father!=nullptr)
+    {
+        runner=runner->father;
+    }
+    if(runner->team==nullptr)
+    {
+        return false
+    }
+    else
+        return true;
+
+
 }

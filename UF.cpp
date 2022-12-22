@@ -2,7 +2,10 @@
 #include "UF.h"
 
 
-
+int UF::get_sum_games(int id) const
+{
+    return players_table->get_games( id);
+}
 
 permutation_t UF::getTeamPermutation() const
 {
@@ -37,6 +40,20 @@ bool UF::removeTeam(int id)
     teams_tree->search(id)->playersUF->team= nullptr;
     return teams_tree->remove(id);
 }
+
+bool UF::is_in_tor(int id) const
+{
+    return players_table->is_active(id);
+}
+
+int UF::get_team_points(int id) const
+{
+   return teams_tree->search(id)->get_points();
+}
+
+
+
+
 
 
 Player* UF::getPlayer(int id)

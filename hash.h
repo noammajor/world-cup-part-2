@@ -67,6 +67,7 @@ public:
     int getsize() const;
     int getfactor() const;
     int get_games(int id) const;
+    bool is_active(int id) const;
 };
 
 #endif

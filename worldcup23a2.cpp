@@ -86,7 +86,11 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
     Team* temp2 = Teams_Players->get_team( teamId1);
     if (temp1== nullptr||temp2== nullptr)
     {
-        return output_t<int>(StatusType::FAILURE) ;
+        return output_t<int>(StatusType::FAILURE);
+    }
+    if(!(temp1->exists_goalkeeper()) || !(temp2->exists_goalkeeper()))
+    {
+        return output_t<int>(StatusType::FAILURE);
     }
     int team1=temp1->get_points()*temp1->get_ability();
     int team2=temp2->get_points()*temp2->get_ability();
@@ -126,40 +130,78 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
-
-
-
-
+    if(playerId<=0)
+    {
+        return output_t<int>(StatusType::INVALID_INPUT);
+    }
+    else if(!(Teams_Players-> player_exists(playerId)))
+    {
+        return output_t<int>(StatusType::FAILURE);
+    }
+    else
+        return output_t<int>(Teams_Players->get_sum_games(playerId));
 }
 
 StatusType world_cup_t::add_player_cards(int playerId, int cards)
 {
-	// TODO: Your code goes here
+    if(playerId<=0 || cards<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    else if(!(Teams_Players-> player_exists(playerId)))
+    {
+        return StatusType::FAILURE;
+    }
+    else if(!(Teams_Players->is_in_tor(playerId)))
+    {
+        return StatusType::FAILURE;
+    }
+    Teams_Players->getPlayer(playerId)->add_cards(cards);
 	return StatusType::SUCCESS;
 }
 
 output_t<int> world_cup_t::get_player_cards(int playerId)
 {
-	// TODO: Your code goes here
-	return StatusType::SUCCESS;
+    if(playerId<=0)
+    {
+        return output_t<int>(StatusType::INVALID_INPUT);
+    }
+    else if(!(Teams_Players-> player_exists(playerId)))
+    {
+        return output_t<int>(StatusType::FAILURE);
+    }
+    return output_t<int>(Teams_Players->getPlayer(playerId)->get_cards());
 }
 
 output_t<int> world_cup_t::get_team_points(int teamId)
 {
-	// TODO: Your code goes here
-	return 30003;
+    if(teamId<=0)
+    {
+        return output_t<int>(StatusType::INVALID_INPUT);
+    }
+    if(Teams_Players->teamExists(teamId)==false)
+    {
+        return output_t<int>(StatusType::FAILURE);
+    }
+    return output_t<int>(Teams_Players->get_team(teamId)->get_points());
 }
 
 output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 {
-	// TODO: Your code goes here
-	return 12345;
+
 }
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 {
-	// TODO: Your code goes here
-	return permutation_t();
+    if(playerId<=0)
+    {
+        return output_t<permutation_t>(StatusType::INVALID_INPUT);
+    }
+    else if(!(Teams_Players-> player_exists(playerId)))
+    {
+        return output_t<permutation_t>(StatusType::FAILURE);
+    }
+	return output_t<permutation_t>(Teams_Players->getPlayer(playerId)->get_per());
 }
 
 StatusType world_cup_t::buy_team(int teamId1, int teamId2)

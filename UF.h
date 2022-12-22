@@ -19,7 +19,7 @@ public:
     UF& operator=(const UF&) = delete;
     UF(const UF&) = delete;
     ~UF() = default; ////////////////////////do later
-
+    bool is_in_tor(int id) const;
     Player* player_exists(int key) const;
     void insert(Player* elem, Team* group);
     void Union(UF_Node* r1, UF_Node* r2);
@@ -31,6 +31,8 @@ public:
     bool teamExists(int teamID) const;
     permutation_t getTeamPermutation() const;
     Team* get_team(int teamID) const;
+    int get_sum_games(int id) const;
+    int get_team_points(int id) const;
 
 };
 

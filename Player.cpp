@@ -3,6 +3,12 @@
 #include "Player.h"
 
 
+
+void Player::add_cards(int cards)
+{
+    this->cards=+cards;
+}
+
 int Player::get_games_played() const
 {
     return this->games_played;
