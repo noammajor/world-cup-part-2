@@ -12,7 +12,7 @@
 class UF
 {
     Hash_table* players_table;
-    AVL_Tree<Team*, TeamIDOrder>* teams_tree;
+    AVL_Tree<Team*, TeamAbilityOrder>* teams_tree;
 
 public:
     UF(): players_table(new Hash_table), teams_tree(new AVL_Tree<Team,TeamID>){}

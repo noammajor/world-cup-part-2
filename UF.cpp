@@ -106,17 +106,29 @@ Team* UF::find(int key)
         return nullptr;
     }
     UF_Node* rootNode = pocket1->node;
+    int cur_games, tot_games = rootNode->player->get_games_played();
+    permutation_t cur_per, tot_per = rootNode->player->get_per();
     while(rootNode->father != nullptr)
     {
+        tot_games += rootNode->father->player->get_games_played();
+        tot_per = tot_per * rootNode->father->player->get_per();
         rootNode = rootNode->father; // hold top of the group
     }
+    int root_games = rootNode->player->get_games_played();
+    permutation_t root_per = rootNode->player->get_per();
     UF_Node* tempSqueezeLines1 = pocket1->node;
     UF_Node* tempSqueezeLines2 = pocket1->node;
     while(tempSqueezeLines1->father != nullptr)
     {
+        cur_games = tempSqueezeLines1->player->get_games_played();
+        tempSqueezeLines1->player->add_games(tot_games - cur_games - root_games);
+        cur_per = tempSqueezeLines1->player->get_per();
+        tempSqueezeLines1->player->change_per_right(cur_per.inv() * tot_per * root_per.inv());
         tempSqueezeLines2 = tempSqueezeLines1->father;
         tempSqueezeLines1->father = rootNode;
         tempSqueezeLines1 = tempSqueezeLines2;
+        tot_games -= cur_games;
+        tot_per = cur_per.inv() * tot_per;
     }
     return rootNode->team;
 }
