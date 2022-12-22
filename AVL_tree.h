@@ -16,6 +16,7 @@ struct Node
     Node* son_larger;
     T data;
     int height;
+    int size;
     T& get_data_Node();
 };
 
