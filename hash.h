@@ -67,6 +67,7 @@ public:
     int getfactor() const;
     int get_games(int id) const;
     bool is_active(int id) const;
+    void destroy();
 };
 
 #endif

@@ -132,6 +132,26 @@ int Hash_table::get_games(int id) const
     }
     return sum;
 }
+void Hash_table::destroy()
+{
+    for (int i = 0; i < size_factor; ++i)
+    {
+        if(data[i]!= nullptr)
+        {
+            Pocket* del_temp=data[i];
+            Pocket* ptr_temp=data[i];
+            while(ptr_temp->next!= nullptr)
+            {
+                ptr_temp=ptr_temp->next;
+                delete del_temp->node->player;
+                delete del_temp->node;
+                del_temp=ptr_temp;
+            }
+            delete del_temp->node->player;
+            delete del_temp->node;
+        }
+    }
+}
 
 
 

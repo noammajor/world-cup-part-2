@@ -8,6 +8,9 @@ world_cup_t::world_cup_t()
 
 world_cup_t::~world_cup_t()
 {
+    Teams_Players->pre_des();
+    delete Teams_Players;
+    delete TeamsByAbility;
 }
 
 StatusType world_cup_t::add_team(int teamID)

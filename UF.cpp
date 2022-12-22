@@ -13,6 +13,12 @@ int UF::get_sum_games(int id) const
     return players_table->get_games(id);
 }
 
+void UF::pre_des()
+{
+    players_table->destroy();
+}
+
+
 bool UF::teamExists(int teamID) const
 {
     if(!teams_tree->search(teamID))

@@ -40,6 +40,7 @@ public:
     Team* get_team(int teamID) const;
     int get_sum_games(int id) const;
     int get_team_points(int id) const;
+    void pre_des();
 
 };
 
