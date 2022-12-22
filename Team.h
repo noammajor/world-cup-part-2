@@ -47,6 +47,7 @@ public:
 
     bool exists_goalkeeper() const;
 
+    void add_goalkeeper();
     void more_game_played();
 
     int get_ability() const;

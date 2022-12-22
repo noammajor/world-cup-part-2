@@ -8,7 +8,6 @@ world_cup_t::world_cup_t()
 
 world_cup_t::~world_cup_t()
 {
-	// TODO: Your code goes here
 }
 
 StatusType world_cup_t::add_team(int teamID)
@@ -83,11 +82,18 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
     }
     try
     {
+        TeamsByAbility->remove(temp1);
         temp1->change_per(spirit);
         temp1->add_ability(ability);
+        if(goalKeeper== true)
+        {
+            temp1->add_goalkeeper();
+        }
+        TeamsByAbility->insert_to_tree((temp1));
         permutation_t per1 = TeamsByAbility->search(teamId)->get_data_Node()->get_per();
         Player *player = new Player(playerId, gamesPlayed, ability, cards, goalKeeper, per1);
         Teams_Players->insert(player, Teams_Players->get_team(teamId));
+
     }
     catch (std::bad_alloc &)
     {
