@@ -66,6 +66,7 @@ public:
     Pocket* get(int key) const;
     int getsize() const;
     int getfactor() const;
+    int get_games(int id) const;
 };
 
 #endif

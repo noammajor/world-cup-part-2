@@ -34,6 +34,7 @@ bool UF::addTeam(int id)
 
 bool UF::removeTeam(int id)
 {
+    teams_tree->search(id)->playersUF->team= nullptr;
     return teams_tree->remove(id);
 }
 

@@ -126,8 +126,10 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
-	// TODO: Your code goes here
-	return 22;
+
+
+
+
 }
 
 StatusType world_cup_t::add_player_cards(int playerId, int cards)

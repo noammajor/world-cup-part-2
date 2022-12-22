@@ -121,3 +121,17 @@ Hash_table::~Hash_table()
     delete[] data;
 }
 
+int get_games(int id) cons
+{
+    Pocket* temp = this->get(id);
+    int sum=0;
+    sum=temp->node->player->get_games_played();
+    UF_Node* runner=temp->node;
+    while(runner->father!=nullptr)
+    {
+        sum+=runner->player->get_games_played();
+        runner=runner->father;
+    }
+    sum+=runner->player->get_games_played();
+    return sum;
+}
