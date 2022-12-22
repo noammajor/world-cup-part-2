@@ -55,12 +55,19 @@ void UF::insert(Player* player1, Team* team1)
     UF_Node* node1 = new UF_Node(player1);
     players_table->add(player1->get_playerID(), node1);
     node1->team = team1;
-    UF_Node* root = team1->get_players();/////////
-    node1->father = root;
-    root->size++;
-
-    // elem->partial_spirit += team_spirit
-
+    UF_Node* root = team1->get_players();
+    if (root)
+    {
+        node1->father = root;
+        player1->add_games(-root->player->get_games_played());
+        player1->change_per_right(root->player->get_per().inv());
+        root->size++;
+    }
+    else
+    {
+        node1->father = nullptr;
+        team1->add_first_player(node1);
+    }
 }
 
 
@@ -77,16 +84,20 @@ void UF::Union(UF_Node* r1, UF_Node* r2)
     if (r1->size > r2->size)
     {
         r2->father = r1;
+        r2->player->add_games(-r1->player->get_games_played());
+        r2->player->change_per_right(r1->player->get_per().inv());
         r1->size += r2->size;
     }
     else
     {
         r1->father = r2;
+        r1->player->add_games(-r2->player->get_games_played());
+        r1->player->change_per_right(r2->player->get_per().inv());
         r2->size += r1->size;
     }
 }
 
-
+////////////////////////////////////////
 Team* UF::find(int key)
 {
     Pocket* pocket1 = this->players_table->get(key);
@@ -121,9 +132,7 @@ Team* UF::get_team(int teamID) const
 Player* UF::player_exists(int key) const
 {
     if(players_table->get(key)== nullptr)
-    {
-        return nullptr
-    }
+        return nullptr;
     else
         return players_table->get(key)->node->player;
 }
