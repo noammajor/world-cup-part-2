@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <cstdlib>
 #include "assert.h"
-main
+
+int main()
 {
-    int arr[100];
+    /*int arr[100];
     Hash_table<int,int> HTtest;
     UF<int,int,int> test;
     for (int i=0; i<100;i++)
@@ -80,14 +81,7 @@ main
     assert(HTtest.get(key)->node->get_data_Node()==arr[i]);
     }
     test.union(test.find(1),test.find(2));
-    assert(test.find(1));
+    assert(test.find(1));*/
 
-
-
-
-
-
-
-
-
+    return 1;
 };

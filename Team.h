@@ -5,9 +5,12 @@
 #include "Player.h"
 #include "wet2util.h"
 #include "UF.h"
+#include "hash.h"
 
-template<class T, class Cond>
-class AVL_Tree;
+
+class Player;
+
+struct UF_Node;
 
 class Team
 {
@@ -70,6 +73,8 @@ class TeamAbilityOrder
 {
 public:
     bool operator()(const Team* t1, const Team* t2) const;
+    bool operator()(const Team* t1, int num) const;
+    bool operator()(int num, const Team* t1) const;
 
 };
 

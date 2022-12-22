@@ -7,15 +7,16 @@
 #include "Player.h"
 
 
+class TeamIDOrder;
 
 
 class UF
 {
     Hash_table* players_table;
-    AVL_Tree<Team*, TeamAbilityOrder>* teams_tree;
+    AVL_Tree<Team*, TeamIDOrder>* teams_tree;
 
 public:
-    UF(): players_table(new Hash_table), teams_tree(new AVL_Tree<Team,TeamID>){}
+    UF(): players_table(new Hash_table()), teams_tree(new AVL_Tree<Team*,TeamIDOrder>()){}
     UF& operator=(const UF&) = delete;
     UF(const UF&) = delete;
     ~UF() = default; ////////////////////////do later
@@ -23,11 +24,10 @@ public:
     Player* player_exists(int key) const;
     void insert(Player* elem, Team* group);
     void Union(UF_Node* r1, UF_Node* r2);
-    G* find(int key);
-    bool connected(Player* elem1, Player* elem2) const;
+    Team* find(int key);
     bool addTeam(Team* team);
     bool removeTeam(int id);
-    T* getPlayer(int id);
+    Player* getPlayer(int id);
     bool teamExists(int teamID) const;
     Team* get_team(int teamID) const;
     int get_sum_games(int id) const;

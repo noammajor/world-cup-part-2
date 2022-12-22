@@ -36,7 +36,7 @@ int Team::get_ability() const
 
 UF_Node* Team::get_players() const
 {
-
+    return playersUF;
 }
 
 void Team::add_first_player(UF_Node*  p1)
@@ -108,5 +108,17 @@ bool TeamAbilityOrder::operator()(const Team* t1, const Team* t2) const
         return false;
     else
         return t1->get_ID() > t2->get_ID();
+}
+
+bool TeamAbilityOrder::operator()(const Team* t1, int num) const
+{
+
+    return t1->get_ability() > num;
+}
+
+bool TeamAbilityOrder::operator()(int num, const Team* t1) const
+{
+
+    return num > t1->get_ability();
 }
 

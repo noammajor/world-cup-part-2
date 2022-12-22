@@ -1,10 +1,10 @@
 #ifndef AVL_TREE
 #define AVL_TREE
 
-#include "Team.h"
+
 #include <stdio.h>
 #include <math.h>
-#include "Player.h"
+
 
 
 
@@ -305,7 +305,6 @@ bool AVL_Tree<T, Cond>::insert_to_tree(const T& data)
         root = ptr;
         ptr->father = nullptr;
         size++;
-        this->Highest_setting();
         return true;
     }
     return false;
@@ -436,7 +435,6 @@ bool AVL_Tree<T, Cond>::remove (S num)
     fix_height(ptr_father);
     size--;
     this->set_root();
-    this->Highest_setting();
     return true;
 }
 
@@ -571,7 +569,7 @@ template<class T, class Cond>
 Node<T, Cond>* AVL_Tree<T, Cond>::find_index(int index) const
 {
     Node<T, Cond>* ptr = root;
-    find_index_rec(root, index);
+    return find_index_rec(root, index);
 }
 
 template<class T, class Cond>

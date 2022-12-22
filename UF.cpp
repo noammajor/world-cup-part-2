@@ -25,7 +25,7 @@ bool UF::addTeam(Team* team)
 
 bool UF::removeTeam(int id)
 {
-    teams_tree->search(id)->playersUF->team= nullptr;
+    teams_tree->search(id)->get_data_Node()->get_players()->team = nullptr;
     return teams_tree->remove(id);
 }
 
@@ -36,7 +36,7 @@ bool UF::is_in_tor(int id) const
 
 int UF::get_team_points(int id) const
 {
-   return teams_tree->search(id)->get_points();
+   return teams_tree->search(id)->get_data_Node()->get_points();
 }
 
 
@@ -73,12 +73,6 @@ void UF::insert(Player* player1, Team* team1)
         node1->father = nullptr;
         team1->add_first_player(node1);
     }
-}
-
-
-bool UF::connected(Player* elem1, Player* elem2) const
-{
-    return (this->find(elem1) == this->find(elem2));
 }
 
 
