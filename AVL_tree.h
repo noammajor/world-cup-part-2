@@ -505,6 +505,8 @@ void AVL_Tree<T, Cond>::fix_height (Node<T, Cond>* node)
 template<class T, class Cond>
 void AVL_Tree<T, Cond>::fix_size (Node<T, Cond>* node)
 {
+    if(!node)
+        return;
     node->size = 1;
     if (node->son_smaller)
         node->size += node->son_smaller->size;

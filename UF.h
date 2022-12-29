@@ -28,7 +28,7 @@ public:
     UF& operator=(const UF&) = delete;
     UF(const UF&) = delete;
     ~UF();
-    bool is_in_tor(int id) const;
+   // bool is_in_tor(int id) const;
     Player* player_exists(int key) const;
     void insert(Player* elem, Team* group);
     void Union(UF_Node* r1, UF_Node* r2);

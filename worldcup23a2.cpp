@@ -89,14 +89,14 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
         TeamsByAbility->remove(temp1);
         temp1->change_per(spirit);
         temp1->add_ability(ability);
-        if(goalKeeper== true)
+        if(goalKeeper)
         {
             temp1->add_goalkeeper();
         }
         TeamsByAbility->insert_to_tree((temp1));
-        permutation_t per1 = TeamsByAbility->search(temp1)->get_data_Node()->get_per();
+        permutation_t per1 = temp1->get_per();
         Player *player = new Player(playerId, gamesPlayed, ability, cards, goalKeeper, per1);
-        Teams_Players->insert(player, Teams_Players->get_team(teamId));
+        Teams_Players->insert(player, temp1);
 
     }
     catch (std::bad_alloc &)
@@ -163,8 +163,8 @@ output_t<int> world_cup_t::num_played_games_for_player(int playerId)
     {
         return output_t<int>(StatusType::FAILURE);
     }
-    else
-        return output_t<int>(Teams_Players->get_sum_games(playerId));
+    Teams_Players->find(playerId);
+    return output_t<int>(Teams_Players->get_sum_games(playerId));
 }
 
 StatusType world_cup_t::add_player_cards(int playerId, int cards)
@@ -177,7 +177,7 @@ StatusType world_cup_t::add_player_cards(int playerId, int cards)
     {
         return StatusType::FAILURE;
     }
-    else if(!(Teams_Players->is_in_tor(playerId)))
+    else if(!(Teams_Players->find(playerId)))
     {
         return StatusType::FAILURE;
     }
@@ -227,7 +227,7 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
     {
         return output_t<permutation_t>(StatusType::INVALID_INPUT);
     }
-    else if(!(Teams_Players->player_exists(playerId)) || !Teams_Players->is_in_tor(playerId))
+    else if(!Teams_Players->find(playerId))
     {
         return output_t<permutation_t>(StatusType::FAILURE);
     }

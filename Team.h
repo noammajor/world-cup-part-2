@@ -23,7 +23,8 @@ class Team
 
 
 public:
-    Team(int ID): teamID(ID), points(0), num_goalkeepers(0), players_ability(0), playersUF(nullptr), amount(permutation_t()){}
+    Team(int ID): teamID(ID), points(0), num_goalkeepers(0), players_ability(0), playersUF(nullptr),
+                amount(permutation_t(permutation_t::neutral())){}
 
 
 //////////////////////////// default constructor of permutation

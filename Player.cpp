@@ -29,9 +29,6 @@ void Player::change_per_left(const permutation_t &p)
 }
 
 
-
-
-
 bool Player::is_goalkeeper() const
 {
     return goalkeeper;

@@ -49,7 +49,7 @@ class Hash_table
     condition con;
 
 public:
-    Hash_table(): size(0),data(new Pocket*[10]),size_factor(10), con()
+    Hash_table(): size(0), data(new Pocket*[10]), size_factor(10), con()
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -66,7 +66,7 @@ public:
     int getsize() const;
     int getfactor() const;
     int get_games(int id) const;
-    bool is_active(int id) const;
+   // bool is_active(int id) const;
     void destroy();
 };
 

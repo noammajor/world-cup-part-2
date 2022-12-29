@@ -48,20 +48,16 @@ bool UF::removeTeam(int id)
         players->team = nullptr;
     return teams_tree->remove(id);
 }
-
+/*
 bool UF::is_in_tor(int id) const
 {
     return players_table->is_active(id);
-}
+}*/
 
 int UF::get_team_points(int id) const
 {
    return teams_tree->search(id)->get_data_Node()->get_points();
 }
-
-
-
-
 
 
 Player* UF::getPlayer(int id)
@@ -116,18 +112,18 @@ void UF::Union(UF_Node* r1, UF_Node* r2)
     }
 }
 
-////////////////////////////////////////
+
 Team* UF::find(int key)
 {
     Pocket* pocket1 = this->players_table->get(key);
-    if(pocket1 == nullptr)
+    if(!pocket1)
     {
         return nullptr;
     }
     UF_Node* rootNode = pocket1->node;
     int cur_games, tot_games = rootNode->player->get_games_played();
     permutation_t cur_per, tot_per = rootNode->player->get_per();
-    while(rootNode->father != nullptr)
+    while(rootNode->father)
     {
         tot_games += rootNode->father->player->get_games_played();
         tot_per = tot_per * rootNode->father->player->get_per();
@@ -136,8 +132,8 @@ Team* UF::find(int key)
     int root_games = rootNode->player->get_games_played();
     permutation_t root_per = rootNode->player->get_per();
     UF_Node* tempSqueezeLines1 = pocket1->node;
-    UF_Node* tempSqueezeLines2 = pocket1->node;
-    while(tempSqueezeLines1->father != nullptr)
+    UF_Node* tempSqueezeLines2;
+    while(tempSqueezeLines1->father)
     {
         cur_games = tempSqueezeLines1->player->get_games_played();
         tempSqueezeLines1->player->add_games(tot_games - cur_games - root_games);
@@ -149,7 +145,9 @@ Team* UF::find(int key)
         tot_games -= cur_games;
         tot_per = cur_per.inv() * tot_per;
     }
-    return rootNode->team;
+    if (rootNode->team)
+        return rootNode->team;
+    return nullptr;
 }
 
 Team* UF::get_team(int teamID) const
@@ -162,7 +160,7 @@ Team* UF::get_team(int teamID) const
 
 Player* UF::player_exists(int key) const
 {
-    if(players_table->get(key)== nullptr)
+    if(!players_table->get(key))
         return nullptr;
     else
         return players_table->get(key)->node->player;

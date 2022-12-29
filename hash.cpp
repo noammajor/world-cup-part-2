@@ -14,7 +14,7 @@ Pocket* Hash_table::get(int key) const
 {
     int index = this->con(key);
     Pocket* temp = this->data[index];
-    if(temp== nullptr)
+    if(!temp)
     {
         return nullptr;
     }
@@ -40,7 +40,7 @@ void Hash_table::add(int key, UF_Node* elem)
     {
         resize();
     }
-    int place=con(key);
+    int place = con(key);
     Pocket* t= new Pocket();
     t->next= nullptr;
     t->key = key;
@@ -51,8 +51,8 @@ void Hash_table::add(int key, UF_Node* elem)
     }
     else
     {
-        Pocket* temp =this->data[place];
-        while(temp->next!=nullptr)
+        Pocket* temp = this->data[place];
+        while(temp->next)
         {
             temp = temp->next;
         }
@@ -64,7 +64,7 @@ void Hash_table::add(int key, UF_Node* elem)
 
 void Hash_table::resize()
 {
-    condition c=condition(size_factor*factor);
+    condition c = condition(size_factor * factor);
     Pocket** tempData = new Pocket*[size_factor * factor];
     for (int i = 0 ; i < size_factor*factor ; ++i)
     {
@@ -97,7 +97,7 @@ void Hash_table::resize()
     }
     delete[] this->data;
     this->data=tempData;
-    this->size_factor=this->size_factor*this->factor;
+    this->size_factor = this->size_factor * this->factor;
     this->con.resizing(size_factor);
 }
 
@@ -106,14 +106,14 @@ Hash_table::~Hash_table()
 {
     for (int i = 0; i < size_factor; ++i)
     {
-        if(this->data[i]!= nullptr)
+        if(data[i])
         {
-            Pocket* temp=data[i];
-            while(temp!= nullptr)
+            Pocket* temp = data[i];
+            while(temp)
             {
-                Pocket* tempdel=temp;
-                temp=temp->next;
-                delete tempdel;
+                Pocket* temp_del = temp;
+                temp = temp->next;
+                delete temp_del;
             }
         }
     }
@@ -132,20 +132,21 @@ int Hash_table::get_games(int id) const
     }
     return sum;
 }
+
 void Hash_table::destroy()
 {
     for (int i = 0; i < size_factor; ++i)
     {
-        if(data[i]!= nullptr)
+        if(data[i])
         {
-            Pocket* del_temp=data[i];
-            Pocket* ptr_temp=data[i];
-            while(ptr_temp->next!= nullptr)
+            Pocket* del_temp = data[i];
+            Pocket* ptr_temp = data[i];
+            while(ptr_temp->next)
             {
-                ptr_temp=ptr_temp->next;
+                ptr_temp = ptr_temp->next;
                 delete del_temp->node->player;
                 delete del_temp->node;
-                del_temp=ptr_temp;
+                del_temp = ptr_temp;
             }
             delete del_temp->node->player;
             delete del_temp->node;
@@ -154,7 +155,7 @@ void Hash_table::destroy()
 }
 
 
-
+/*
 bool Hash_table::is_active(int id) const
 {
     Pocket* temp = this->get(id);
@@ -169,4 +170,4 @@ bool Hash_table::is_active(int id) const
     }
     else
         return true;
-}
+}*/
