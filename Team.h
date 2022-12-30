@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "wet2util.h"
 #include "UF.h"
-//#include "hash.h"
 
 
 class Player;
@@ -26,11 +25,6 @@ public:
     Team(int ID): teamID(ID), points(0), num_goalkeepers(0), players_ability(0), playersUF(nullptr),
                 amount(permutation_t(permutation_t::neutral())){}
 
-
-//////////////////////////// default constructor of permutation
-
-
-
     Team& operator=(const Team&) = delete;
 
     Team(const Team&) = delete;
@@ -41,11 +35,7 @@ public:
 
     void add_ability(int amount);
 
-    void add_player (Player* player);
-
     bool operator >(const Team* p1) const;
-
-    int tot_game_points() const;
 
     int get_points() const;
 
@@ -54,7 +44,6 @@ public:
     bool exists_goalkeeper() const;
 
     void add_goalkeeper();
-    void more_game_played();
 
     int get_ability() const;
 

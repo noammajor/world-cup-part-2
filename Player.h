@@ -33,23 +33,15 @@ public:
 
     int get_games_played() const;
 
-    bool is_goalkeeper() const;
-
     int get_cards() const;
 
     int get_playerID() const;
 
-    int get_team_games() const;
-
     void add_games(int num);
-
-    int get_ability() const;
 
     permutation_t get_per() const;
 
     void change_per_right( const permutation_t& p);
-
-    void change_per_left( const permutation_t& p);
 
     void add_cards(int cards);
 

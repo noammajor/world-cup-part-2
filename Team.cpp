@@ -16,18 +16,6 @@ void Team::add_points(int points_add)
     points += points_add;
 }
 
-void Team::more_game_played()
-{
-    playersUF->player->add_games(1);
-}
-
-void Team::add_player (Player* player)
-{
-    if (player->is_goalkeeper())
-        num_goalkeepers++;
-    players_ability += player->get_ability();
-}
-
 int Team::get_ability() const
 {
     return players_ability;
@@ -60,11 +48,7 @@ permutation_t Team::get_per() const
 
 void Team::change_per( const permutation_t& p)
 {
-    amount=amount*p;
-}
-int Team::tot_game_points() const
-{
-    return points + players_ability;
+    amount = amount * p;
 }
 
 int Team::get_points() const

@@ -1,15 +1,5 @@
 #include "hash.h"
 
-int Hash_table:: getsize() const
-{
-    return this->size;
-}
-
-int Hash_table:: getfactor() const
-{
-    return this->size_factor;
-}
-
 Pocket* Hash_table::get(int key) const
 {
     int index = this->con(key);
@@ -72,7 +62,7 @@ void Hash_table::resize()
     }
     for(int i = 0 ; i < size_factor ; i++)
     {
-        if(this->data[i] != nullptr)
+        if(data[i] != nullptr)
         {
             Pocket* temp = data[i];
             while (temp!= nullptr)
@@ -95,10 +85,10 @@ void Hash_table::resize()
             }
         }
     }
-    delete[] this->data;
-    this->data=tempData;
-    this->size_factor = this->size_factor * this->factor;
-    this->con.resizing(size_factor);
+    delete[] data;
+    data = tempData;
+    size_factor = size_factor * factor;
+    con.resizing(size_factor);
 }
 
 
@@ -153,21 +143,3 @@ void Hash_table::destroy()
         }
     }
 }
-
-
-/*
-bool Hash_table::is_active(int id) const
-{
-    Pocket* temp = this->get(id);
-    UF_Node* runner = temp->node;
-    while(runner->father)
-    {
-        runner = runner->father;
-    }
-    if(runner->team == nullptr)
-    {
-        return false;
-    }
-    else
-        return true;
-}*/

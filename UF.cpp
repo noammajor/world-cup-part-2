@@ -48,11 +48,7 @@ bool UF::removeTeam(int id)
         players->team = nullptr;
     return teams_tree->remove(id);
 }
-/*
-bool UF::is_in_tor(int id) const
-{
-    return players_table->is_active(id);
-}*/
+
 
 int UF::get_team_points(int id) const
 {
