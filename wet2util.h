@@ -85,7 +85,7 @@ public:
 		
 		for (int i = 0; i < N; ++i)
 		{
-			if (a[i] <= 0 || a[i] > N || found[a[i]])
+			if (a[i] < 0 || a[i] >= N || found[a[i]])
 			{
 				return false;
 			}

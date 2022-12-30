@@ -113,7 +113,7 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
         return output_t<int>(StatusType::INVALID_INPUT) ;
     }
     Team* temp1 = Teams_Players->get_team( teamId1);
-    Team* temp2 = Teams_Players->get_team( teamId1);
+    Team* temp2 = Teams_Players->get_team( teamId2);
     if (temp1 == nullptr || temp2 == nullptr)
     {
         return output_t<int>(StatusType::FAILURE);
@@ -218,7 +218,7 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
     Node<Team*, TeamAbilityOrder>* node = TeamsByAbility->find_index(i + 1);
     if (!node)
         return output_t<int>(StatusType::FAILURE);
-    return output_t<int>(node->get_data_Node()->get_ability());
+    return output_t<int>(node->get_data_Node()->get_ID());
 }
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)

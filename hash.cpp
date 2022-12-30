@@ -104,7 +104,7 @@ void Hash_table::resize()
 
 Hash_table::~Hash_table()
 {
-    for (int i = 0; i < size_factor; ++i)
+    for (int i = 0 ; i < size_factor ; ++i)
     {
         if(data[i])
         {
@@ -135,7 +135,7 @@ int Hash_table::get_games(int id) const
 
 void Hash_table::destroy()
 {
-    for (int i = 0; i < size_factor; ++i)
+    for (int i = 0 ; i < size_factor; ++i)
     {
         if(data[i])
         {

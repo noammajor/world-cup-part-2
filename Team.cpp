@@ -3,7 +3,7 @@
 
 void Team::add_ability(int amount)
 {
-    players_ability+=amount;
+    players_ability += amount;
 }
 
 int Team::get_ID () const
@@ -85,6 +85,7 @@ void Team::add_goalkeeper()
 {
     this->num_goalkeepers++;
 }
+
 bool TeamIDOrder::operator()(const Team* t1, const Team* t2) const
 {
     return t1->get_ID() > t2->get_ID();
