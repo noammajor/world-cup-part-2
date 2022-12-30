@@ -248,6 +248,9 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         UF_Node* p2 = team2->get_players();
         p1->player->change_per_right(team2->get_per());
         Teams_Players->Union(p1, p2);
+        Teams_Players->removeTeam(teamId2);
+        TeamsByAbility->remove(team2);
+        delete team2;
     }
     catch (std::bad_alloc&)
     {

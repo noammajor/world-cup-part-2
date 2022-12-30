@@ -15,7 +15,7 @@ class Player;
 
 class Hash_table;
 
-class UF_Node;
+struct UF_Node;
 
 
 class UF
