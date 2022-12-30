@@ -41,15 +41,17 @@ public:
 
     void add_points(int pointsAdd);
 
-    bool exists_goalkeeper() const;
+    int get_num_goalkeepers() const;
 
-    void add_goalkeeper();
+    void add_goalkeepers(int num);
 
     int get_ability() const;
 
     permutation_t get_per() const;
 
-    void change_per( const permutation_t& p);
+    void change_per_right( const permutation_t& p);
+
+    void change_per_left( const permutation_t& p);
 
     UF_Node* get_players() const;
 

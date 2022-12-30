@@ -87,14 +87,17 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
     try
     {
         TeamsByAbility->remove(temp1);
-        temp1->change_per(spirit);
+        temp1->change_per_right(spirit);
         temp1->add_ability(ability);
         if(goalKeeper)
         {
-            temp1->add_goalkeeper();
+            temp1->add_goalkeepers(1);
         }
         TeamsByAbility->insert_to_tree((temp1));
         permutation_t per1 = temp1->get_per();
+        UF_Node* root_player = temp1->get_players();
+        if (root_player)
+            per1 = per1 * root_player->player->get_per().inv();
         Player *player = new Player(playerId, gamesPlayed, ability, cards, goalKeeper, per1);
         Teams_Players->insert(player, temp1);
 
@@ -118,7 +121,7 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
     {
         return output_t<int>(StatusType::FAILURE);
     }
-    if(!(temp1->exists_goalkeeper()) || !(temp2->exists_goalkeeper()))
+    if(temp1->get_num_goalkeepers() <= 0 || temp2->get_num_goalkeepers() <= 0)
     {
         return output_t<int>(StatusType::FAILURE);
     }
@@ -244,12 +247,18 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         Team *team2 = Teams_Players->get_team(teamId2);
         if (!team1 || !team2)
             return StatusType::FAILURE;
+        TeamsByAbility->remove(team1);
+        TeamsByAbility->remove(team2);
         UF_Node* p1 = team1->get_players();
         UF_Node* p2 = team2->get_players();
         p1->player->change_per_right(team2->get_per());
+        team1->change_per_left(team2->get_per());
         Teams_Players->Union(p1, p2);
         Teams_Players->removeTeam(teamId2);
-        TeamsByAbility->remove(team2);
+        team1->add_ability(team2->get_ability());
+        team1->add_goalkeepers(team2->get_num_goalkeepers());
+        team1->add_points(team2->get_points());
+        TeamsByAbility->insert_to_tree(team1);
         delete team2;
     }
     catch (std::bad_alloc&)

@@ -46,9 +46,14 @@ permutation_t Team::get_per() const
     return amount;
 }
 
-void Team::change_per( const permutation_t& p)
+void Team::change_per_right( const permutation_t& p)
 {
     amount = amount * p;
+}
+
+void Team::change_per_left( const permutation_t& p)
+{
+    amount = p * amount;
 }
 
 int Team::get_points() const
@@ -56,18 +61,14 @@ int Team::get_points() const
     return points;
 }
 
-bool Team::exists_goalkeeper() const
+int Team::get_num_goalkeepers() const
 {
-    if(this->num_goalkeepers <= 0)
-    {
-        return false;
-    }
-    return true;
+    return num_goalkeepers;
 }
 
-void Team::add_goalkeeper()
+void Team::add_goalkeepers(int num)
 {
-    this->num_goalkeepers++;
+    num_goalkeepers += num;
 }
 
 bool TeamIDOrder::operator()(const Team* t1, const Team* t2) const
