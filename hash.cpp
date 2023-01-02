@@ -85,7 +85,7 @@ void Hash_table::resize()
         if(data[i] != nullptr)
         {
             Pocket* temp = data[i];
-            while (temp!= nullptr)
+            while (temp)
             {
                 int index = c(temp->key);
                 if(tempData[index] == nullptr)
@@ -94,14 +94,16 @@ void Hash_table::resize()
                 }
                 else
                 {
-                    Pocket* temprun=tempData[index];
-                    while(temprun->next!=nullptr)
+                    Pocket* temprun = tempData[index];
+                    while(temprun->next != nullptr)
                     {
-                        temprun=temprun->next;
+                        temprun = temprun->next;
                     }
-                    temprun->next=temp;
+                    temprun->next = temp;
                 }
-                temp=temp->next;
+                Pocket* prev_temp = temp;
+                temp = temp->next;
+                prev_temp->next = nullptr;
             }
         }
     }

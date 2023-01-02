@@ -95,9 +95,8 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
         }
         TeamsByAbility->insert_to_tree((temp1));
         permutation_t per1 = temp1->get_per();
-        Player *player = new Player(playerId, gamesPlayed, ability, cards, goalKeeper, per1);
+        Player *player = new Player(playerId, gamesPlayed, cards, per1);
         Teams_Players->insert(player, temp1);
-
     }
     catch (std::bad_alloc &)
     {
@@ -255,9 +254,12 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         TeamsByAbility->remove(team2);
         UF_Node* p1 = team1->get_players();
         UF_Node* p2 = team2->get_players();
-        p1->player->change_per_right(team2->get_per());
+        if (p1)
+            p1->player->change_per_right(team2->get_per());
         team1->change_per_left(team2->get_per());
-        Teams_Players->Union(p1, p2);
+        UF_Node* all_players = Teams_Players->Union(p1, p2);
+        all_players->team = team1;
+        team1->add_first_player(all_players);
         Teams_Players->removeTeam(teamId2);
         team1->add_ability(team2->get_ability());
         team1->add_goalkeepers(team2->get_num_goalkeepers());

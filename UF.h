@@ -30,7 +30,7 @@ public:
     ~UF();
     Player* player_exists(int key) const;
     void insert(Player* elem, Team* group);
-    void Union(UF_Node* r1, UF_Node* r2);
+    UF_Node* Union(UF_Node* r1, UF_Node* r2);
     Team* find(int key);
     bool addTeam(Team* team);
     bool removeTeam(int id);

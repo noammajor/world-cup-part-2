@@ -89,23 +89,33 @@ void UF::insert(Player* player1, Team* team1)
 }
 
 
-void UF::Union(UF_Node* r1, UF_Node* r2)
+UF_Node* UF::Union(UF_Node* r1, UF_Node* r2)
 {
     if (r1 == r2)
-        return;
+        return nullptr;
+    if (!r2)
+        return r1;
+    if (!r1)
+    {
+        return r2;
+    }
     if (r1->size > r2->size)
     {
         r2->father = r1;
+        r2->team = nullptr;
         r2->player->add_games(-r1->player->get_games_played());
         r2->player->change_per_right(r1->player->get_per().inv());
         r1->size += r2->size;
+        return r1;
     }
     else
     {
         r1->father = r2;
+        r1->team = nullptr;
         r1->player->add_games(-r2->player->get_games_played());
         r1->player->change_per_right(r2->player->get_per().inv());
         r2->size += r1->size;
+        return r2;
     }
 }
 
