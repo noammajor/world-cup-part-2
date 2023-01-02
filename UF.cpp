@@ -77,7 +77,7 @@ void UF::insert(Player* player1, Team* team1)
     {
         node1->father = root;
         player1->add_games(-root->player->get_games_played());
-        player1->change_per_right(root->player->get_per().inv());
+        player1->change_per_left(root->player->get_per().inv());
         root->size++;
     }
     else
@@ -104,7 +104,7 @@ UF_Node* UF::Union(UF_Node* r1, UF_Node* r2)
         r2->father = r1;
         r2->team = nullptr;
         r2->player->add_games(-r1->player->get_games_played());
-        r2->player->change_per_right(r1->player->get_per().inv());
+        r2->player->change_per_left(r1->player->get_per().inv());
         r1->size += r2->size;
         return r1;
     }
@@ -113,7 +113,7 @@ UF_Node* UF::Union(UF_Node* r1, UF_Node* r2)
         r1->father = r2;
         r1->team = nullptr;
         r1->player->add_games(-r2->player->get_games_played());
-        r1->player->change_per_right(r2->player->get_per().inv());
+        r1->player->change_per_left(r2->player->get_per().inv());
         r2->size += r1->size;
         return r2;
     }
@@ -135,7 +135,7 @@ Team* UF::find(int key)
     while(rootNode->father)
     {
         tot_games += rootNode->father->player->get_games_played();
-        tot_per = tot_per * rootNode->father->player->get_per();
+        tot_per = rootNode->father->player->get_per() * tot_per;
         rootNode = rootNode->father; // hold top of the group
     }
     int root_games = rootNode->player->get_games_played();
@@ -147,12 +147,12 @@ Team* UF::find(int key)
         cur_games = tempSqueezeLines1->player->get_games_played();
         tempSqueezeLines1->player->add_games(tot_games - cur_games - root_games);
         cur_per = tempSqueezeLines1->player->get_per();
-        tempSqueezeLines1->player->change_per_right(cur_per.inv() * tot_per * root_per.inv());
+        tempSqueezeLines1->player->change_per_right(root_per.inv() * tot_per * cur_per.inv());
         tempSqueezeLines2 = tempSqueezeLines1->father;
         tempSqueezeLines1->father = rootNode;
         tempSqueezeLines1 = tempSqueezeLines2;
         tot_games -= cur_games;
-        tot_per = cur_per.inv() * tot_per;
+        tot_per = tot_per * cur_per.inv();
     }
     if (rootNode->team)
         return rootNode->team;

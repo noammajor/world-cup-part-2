@@ -235,7 +235,7 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
     Player* root_player = team1->get_players()->player;
     if (root_player->get_playerID() != playerId)
     {
-        return output_t<permutation_t>(per * root_player->get_per());
+        return output_t<permutation_t>(root_player->get_per() * per);
     }
 	return output_t<permutation_t>(per);
 }
