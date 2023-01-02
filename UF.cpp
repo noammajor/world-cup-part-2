@@ -92,7 +92,7 @@ void UF::insert(Player* player1, Team* team1)
 UF_Node* UF::Union(UF_Node* r1, UF_Node* r2)
 {
     if (r1 == r2)
-        return nullptr;
+        return r1;
     if (!r2)
         return r1;
     if (!r1)
@@ -128,8 +128,10 @@ Team* UF::find(int key)
         return nullptr;
     }
     UF_Node* rootNode = pocket1->node;
-    int cur_games, tot_games = rootNode->player->get_games_played();
-    permutation_t cur_per, tot_per = rootNode->player->get_per();
+    int cur_games;
+    int tot_games = rootNode->player->get_games_played();
+    permutation_t cur_per;
+    permutation_t tot_per = rootNode->player->get_per();
     while(rootNode->father)
     {
         tot_games += rootNode->father->player->get_games_played();

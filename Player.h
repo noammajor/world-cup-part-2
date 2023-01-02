@@ -40,6 +40,8 @@ public:
 
     void change_per_right( const permutation_t& p);
 
+    void change_per_left( const permutation_t& p);
+
     void add_cards(int cards);
 
 };

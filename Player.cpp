@@ -21,7 +21,12 @@ permutation_t Player::get_per() const
 
 void Player::change_per_right(const permutation_t &p)
 {
-    partial_spirit = partial_spirit*p;
+    partial_spirit = partial_spirit * p;
+}
+
+void Player::change_per_left(const permutation_t &p)
+{
+    partial_spirit = p * partial_spirit;
 }
 
 int Player::get_cards() const

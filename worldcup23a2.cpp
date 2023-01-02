@@ -254,12 +254,16 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         TeamsByAbility->remove(team2);
         UF_Node* p1 = team1->get_players();
         UF_Node* p2 = team2->get_players();
-        if (p1)
-            p1->player->change_per_right(team2->get_per());
-        team1->change_per_left(team2->get_per());
+        if (p2)
+            p2->player->change_per_left(team1->get_per());
+        team1->change_per_right(team2->get_per());
         UF_Node* all_players = Teams_Players->Union(p1, p2);
-        all_players->team = team1;
+        if (all_players)
+        {
+            all_players->team = team1;
+        }
         team1->add_first_player(all_players);
+        team2->add_first_player(nullptr);
         Teams_Players->removeTeam(teamId2);
         team1->add_ability(team2->get_ability());
         team1->add_goalkeepers(team2->get_num_goalkeepers());
