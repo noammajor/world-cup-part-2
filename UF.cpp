@@ -147,7 +147,7 @@ Team* UF::find(int key)
         cur_games = tempSqueezeLines1->player->get_games_played();
         tempSqueezeLines1->player->add_games(tot_games - cur_games - root_games);
         cur_per = tempSqueezeLines1->player->get_per();
-        tempSqueezeLines1->player->change_per_right(root_per.inv() * tot_per * cur_per.inv());
+        tempSqueezeLines1->player->change_per_left(root_per.inv() * tot_per * cur_per.inv());
         tempSqueezeLines2 = tempSqueezeLines1->father;
         tempSqueezeLines1->father = rootNode;
         tempSqueezeLines1 = tempSqueezeLines2;
