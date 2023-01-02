@@ -1,5 +1,25 @@
 #include "hash.h"
 
+
+Hash_table::~Hash_table()
+{
+    for (int i = 0 ; i < size_factor ; ++i)
+    {
+        if(data[i])
+        {
+            Pocket* temp = data[i];
+            while(temp)
+            {
+                Pocket* temp_del = temp;
+                temp = temp->next;
+                delete temp_del;
+            }
+        }
+    }
+    delete[] data;
+}
+
+
 Pocket* Hash_table::get(int key) const
 {
     int index = this->con(key);
@@ -89,25 +109,6 @@ void Hash_table::resize()
     data = tempData;
     size_factor = size_factor * factor;
     con.resizing(size_factor);
-}
-
-
-Hash_table::~Hash_table()
-{
-    for (int i = 0 ; i < size_factor ; ++i)
-    {
-        if(data[i])
-        {
-            Pocket* temp = data[i];
-            while(temp)
-            {
-                Pocket* temp_del = temp;
-                temp = temp->next;
-                delete temp_del;
-            }
-        }
-    }
-    delete[] data;
 }
 
 int Hash_table::get_games(int id) const

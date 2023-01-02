@@ -71,7 +71,7 @@ void UF::insert(Player* player1, Team* team1)
 {
     UF_Node* node1 = new UF_Node(player1);
     players_table->add(player1->get_playerID(), node1);
-    node1->team = team1;
+    node1->team = nullptr;
     UF_Node* root = team1->get_players();
     if (root)
     {
@@ -83,6 +83,7 @@ void UF::insert(Player* player1, Team* team1)
     else
     {
         node1->father = nullptr;
+        node1->team = team1;
         team1->add_first_player(node1);
     }
 }

@@ -95,9 +95,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId, const permutation_t
         }
         TeamsByAbility->insert_to_tree((temp1));
         permutation_t per1 = temp1->get_per();
-        UF_Node* root_player = temp1->get_players();
-        if (root_player)
-            per1 = per1 * root_player->player->get_per().inv();
         Player *player = new Player(playerId, gamesPlayed, ability, cards, goalKeeper, per1);
         Teams_Players->insert(player, temp1);
 
@@ -230,11 +227,18 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
     {
         return output_t<permutation_t>(StatusType::INVALID_INPUT);
     }
-    else if(!Teams_Players->find(playerId))
+    Team* team1 = Teams_Players->find(playerId);
+    if(!team1)
     {
         return output_t<permutation_t>(StatusType::FAILURE);
     }
-	return output_t<permutation_t>(Teams_Players->getPlayer(playerId)->get_per());
+    permutation_t per = Teams_Players->getPlayer(playerId)->get_per();
+    Player* root_player = team1->get_players()->player;
+    if (root_player->get_playerID() != playerId)
+    {
+        return output_t<permutation_t>(per * root_player->get_per());
+    }
+	return output_t<permutation_t>(per);
 }
 
 StatusType world_cup_t::buy_team(int teamId1, int teamId2)
