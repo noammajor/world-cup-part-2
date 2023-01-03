@@ -334,7 +334,6 @@ Node<T, Cond>* AVL_Tree<T, Cond>::insert(Node<T, Cond>* t,const T& data)
                 return nullptr;
             t->son_larger = temp;
             temp->father = t;
-            t->size++;
         }
         else if (is_bigger(t->data, data))
         {
@@ -343,12 +342,12 @@ Node<T, Cond>* AVL_Tree<T, Cond>::insert(Node<T, Cond>* t,const T& data)
                 return nullptr;
             t->son_smaller = temp;
             temp->father = t;
-            t->size++;
         }
         else
         {
             return nullptr;
         }
+        fix_size(t);
         t = fix_balance(t);
         return t;
     }
@@ -512,6 +511,7 @@ void AVL_Tree<T, Cond>::fix_size (Node<T, Cond>* node)
         node->size += node->son_smaller->size;
     if (node->son_larger)
         node->size += node->son_larger->size;
+    fix_size(node->father);
 }
 
 template<class T, class Cond>
