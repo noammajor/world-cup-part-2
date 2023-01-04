@@ -506,11 +506,16 @@ void AVL_Tree<T, Cond>::fix_size (Node<T, Cond>* node)
 {
     if(!node)
         return;
-    node->size = 1;
+    int new_size = 1;
     if (node->son_smaller)
-        node->size += node->son_smaller->size;
+        new_size += node->son_smaller->size;
     if (node->son_larger)
-        node->size += node->son_larger->size;
+        new_size += node->son_larger->size;
+    if (new_size == node->size)
+    {
+        return;
+    }
+    node->size = new_size;
     fix_size(node->father);
 }
 
